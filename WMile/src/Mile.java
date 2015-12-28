@@ -32,6 +32,7 @@ public class Mile extends Applet implements ActionListener {
 
     @Override
     public void stop() {
+    	Krtica.brojPogodaka=0;
     }
 
     @Override
