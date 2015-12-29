@@ -1,33 +1,51 @@
 import java.applet.*;
 import java.awt.*;
 import java.awt.event.*;
+
+import javax.swing.*;
+
+import com.sun.xml.internal.bind.v2.runtime.reflect.Lister.Pack;
+
 public class Mile extends Applet implements ActionListener {
     private static final long serialVersionUID = 1;
-    Font f = new Font("TimesRoman", 1, 8);
+   
     Image backGround;
     Krtica b;
     TextField text;
     Boolean kliknuto;
-
+    ImageIcon mile;
+    
     @Override
     public void init() {
-        this.setLayout(new FlowLayout());
-        this.backGround = this.getImage(this.getCodeBase(), "slika.jpg");
-        this.b = new Krtica("b");
-        this.add((Component)this.b);
-        this.b.addActionListener((ActionListener)this);
-        this.kliknuto = false;
-        this.text = new TextField("tu \u0107e do\u0107 broj\u010di\u0107i");
-        this.add(this.text);
+        setLayout(null);
+        backGround = getImage(getCodeBase(), "slika.jpg");
+        mile=new ImageIcon(getImage(getCodeBase(), "mile.jpg").getScaledInstance( 100, 100,  java.awt.Image.SCALE_SMOOTH ) );
+        b = new Krtica(mile);
+        add(b);
+        b.addActionListener(this);
+        kliknuto = false;
+        text = new TextField("tu \u0107e do\u0107 broj\u010di\u0107i");
+        add(text);
+      
     }
 
     @Override
     public void start() {
     }
-
     @Override
     public void paint(Graphics g) {
-        g.drawImage(this.backGround, 0, 0, this);
+    	
+   
+    	text.setLocation(200, 50);
+    	b.setLocation(100, 100);
+    	text.setSize(80, 20);
+    	b.setSize(111, 111);  
+    	g.drawImage(backGround, 0, 0, this);
+    }
+
+    @Override
+     public void paintComponents(Graphics g) {   	
+        
     }
 
     @Override
@@ -41,10 +59,10 @@ public class Mile extends Applet implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        Krtica.brojPogodaka = Krtica.brojPogodaka + 1;
-        this.kliknuto = this.kliknuto == false;
-        this.backGround = this.kliknuto != false ? this.getImage(this.getCodeBase(), "slika2.jpg") : this.getImage(this.getCodeBase(), "slika.jpg");
-        this.text.setText(Krtica.brojPogodaka.toString());
-        this.repaint();
+        Krtica.brojPogodaka ++;
+        kliknuto = !kliknuto;
+        backGround = kliknuto ? getImage(getCodeBase(), "slika2.jpg") :getImage(getCodeBase(), "slika.jpg");
+        text.setText(Krtica.brojPogodaka.toString());
+       repaint();
     }
 }

@@ -1,7 +1,10 @@
-import java.awt.Button;
 
 
-public class Krtica extends Button{
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+
+
+public class Krtica extends JButton{
 	
 	/**
 	 * 
@@ -10,5 +13,8 @@ public class Krtica extends Button{
 	static Integer brojPogodaka=new Integer(0);
 	public Krtica(String da) {
 		super(da);
+	}
+	public Krtica(ImageIcon imageIcon) {
+		super(imageIcon);
 	}
 }
