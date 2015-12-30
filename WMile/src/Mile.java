@@ -1,10 +1,8 @@
 import java.awt.*;
 import java.awt.event.*;
-
 import javax.swing.*;
-
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.concurrent.TimeUnit;
+
 
 
 
@@ -17,7 +15,9 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
     Boolean kliknuto;
     JLabel label;
     Timer t;
-    
+    int level=0;
+    JPanel lo;
+    int delay;
     @Override
     public void init() {
     	 
@@ -39,7 +39,12 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
         text.setHorizontalAlignment(JTextField.CENTER);
         text.setLocation(getSize().width*3/8, 5);
     	text.setSize(getSize().width/4, 20);
-    	t=new Timer(ThreadLocalRandom.current().nextInt(1500,2000),this );
+    	lo=new JPanel();
+    		lo.setLayout(new FlowLayout());
+    		lo.addMouseListener(this);
+    	
+    	delay=(level==0)?ThreadLocalRandom.current().nextInt(1200,2000): (int)(ThreadLocalRandom.current().nextInt(1200,2000)/(0.2*level)) ;
+    	t=new Timer(delay,this );
     	t.start();
 	
       
@@ -56,6 +61,7 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
     public void stop() {
     	Krtica.brojPogodaka=0;
     	Krtica.brojPojavljivanja=0;
+    	level=0;
     }
 
     @Override
@@ -64,29 +70,38 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
     
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		   
-		text.setText(Krtica.brojPogodaka.toString()+" / "+Krtica.brojPojavljivanja);
-		Krtica.brojPojavljivanja ++;
-		b.setLocation(ThreadLocalRandom.current().nextInt(0, getSize().width-b.getSize().width),ThreadLocalRandom.current().nextInt(0, getSize().height-b.getSize().height));//Znači, x na random od nula do (širina appleta-širina mileta), analogno za y
-		t.restart();
-		
+	
+			text.setText(Krtica.brojPogodaka.toString()+" / "+Krtica.brojPojavljivanja);
+			Krtica.brojPojavljivanja ++;
+			b.setLocation(ThreadLocalRandom.current().nextInt(0, getSize().width-b.getSize().width),ThreadLocalRandom.current().nextInt(0, getSize().height-b.getSize().height));//Znači, x na random od nula do (širina appleta-širina mileta), analogno za y
+			if(Krtica.brojPojavljivanja%(5+2*level)==0){
+				t.stop();
+				level++;
+				add(lo);lo.setSize(222, 222);lo.setLocation(222, 222);
+				repaint();
+			}
+			else t.restart();
+	
 	}
   
 
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		
+		if (e.getSource()==lo){
+			remove(lo);repaint();
+			t.restart();
+		}
 		
 	}
 
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		Krtica.brojPogodaka ++;
-        text.setText(Krtica.brojPogodaka.toString()+" / "+Krtica.brojPojavljivanja);
-        //b.setLocation(ThreadLocalRandom.current().nextInt(0, getSize().width-b.getSize().width),ThreadLocalRandom.current().nextInt(0, getSize().height-b.getSize().height));//Znači, x na random od nula do (širina appleta-širina mileta), analogno za y
-        //t.restart(); 
+		if(e.getSource()==b){  
+			Krtica.brojPogodaka ++;
+			text.setText(Krtica.brojPogodaka.toString()+" / "+Krtica.brojPojavljivanja);
+		}
 	}
 
 
