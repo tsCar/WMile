@@ -1,12 +1,11 @@
-import java.applet.*;
 import java.awt.*;
 import java.awt.event.*;
-
 import javax.swing.*;
+import java.util.concurrent.ThreadLocalRandom;
 
-import com.sun.xml.internal.bind.v2.runtime.reflect.Lister.Pack;
 
-public class Mile extends Applet implements ActionListener {
+
+public class Mile extends JApplet implements ActionListener {
     private static final long serialVersionUID = 1;
    
     Image backGround;
@@ -26,27 +25,25 @@ public class Mile extends Applet implements ActionListener {
         kliknuto = false;
         text = new TextField("tu \u0107e do\u0107 broj\u010di\u0107i");
         add(text);
+        text.setLocation(200, 50);
+    	b.setLocation(100, 100);
+    	text.setSize(80, 20);
+    	b.setSize(111, 111);  
+    
       
     }
+
 
     @Override
     public void start() {
     }
     @Override
-    public void paint(Graphics g) {
-    	
-   
-    	text.setLocation(200, 50);
-    	b.setLocation(100, 100);
-    	text.setSize(80, 20);
-    	b.setSize(111, 111);  
+	public void paint(Graphics g) {
+    	super.paint(g);
     	g.drawImage(backGround, 0, 0, this);
     }
 
-    @Override
-     public void paintComponents(Graphics g) {   	
-        
-    }
+
 
     @Override
     public void stop() {
@@ -63,6 +60,11 @@ public class Mile extends Applet implements ActionListener {
         kliknuto = !kliknuto;
         backGround = kliknuto ? getImage(getCodeBase(), "slika2.jpg") :getImage(getCodeBase(), "slika.jpg");
         text.setText(Krtica.brojPogodaka.toString());
+        
+        text.setLocation(200, 50);
+    	b.setLocation(ThreadLocalRandom.current().nextInt(0, getSize().width-b.getSize().width),ThreadLocalRandom.current().nextInt(0, getSize().height-b.getSize().height));//Znači, x na random od nula do (širina appleta-širina mileta), analogno za y
+    
+    	
        repaint();
     }
 }
