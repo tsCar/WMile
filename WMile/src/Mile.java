@@ -11,7 +11,7 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
    
     Image backGround;
     Krtica b;
-    JTextField text;
+    JTextField kolikoOdKoliko,bodovi;
     Boolean kliknuto;
     JLabel label;
     Timer t;
@@ -34,11 +34,18 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
         b.setLocation(100, 100);
         b.setSize(111, 111); 
         kliknuto = false;
-        text = new JTextField("tu \u0107e do\u0107 broj\u010di\u0107i");
-        add(text);
-        text.setHorizontalAlignment(JTextField.CENTER);
-        text.setLocation(getSize().width*3/8, 5);
-    	text.setSize(getSize().width/4, 20);
+        kolikoOdKoliko = new JTextField("tu \u0107e do\u0107 broj\u010di\u0107i");
+        add(kolikoOdKoliko);
+        kolikoOdKoliko.setHorizontalAlignment(JTextField.CENTER);
+        kolikoOdKoliko.setLocation(getSize().width*3/8, 5);
+    	kolikoOdKoliko.setSize(getSize().width/4, 20);
+    	bodovi = new JTextField("Ukupni bodovi");
+    	add(bodovi);
+    	bodovi.setHorizontalAlignment(JTextField.CENTER);
+    	bodovi.setLocation(getSize().width*5/12, 25);
+    	bodovi.setSize(getSize().width/6, 20);
+    	
+    	
     	lo=new JPanel();
     		lo.setLayout(new FlowLayout());
     		lo.addMouseListener(this);
@@ -71,10 +78,10 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 	
-			text.setText(Krtica.brojPogodaka.toString()+" / "+Krtica.brojPojavljivanja);
+			kolikoOdKoliko.setText(Krtica.brojPogodaka.toString()+" / "+Krtica.brojPojavljivanja);
 			Krtica.brojPojavljivanja ++;
 			b.setLocation(ThreadLocalRandom.current().nextInt(0, getSize().width-b.getSize().width),ThreadLocalRandom.current().nextInt(0, getSize().height-b.getSize().height));//Znači, x na random od nula do (širina appleta-širina mileta), analogno za y
-			if(Krtica.brojPojavljivanja%(5+2*level)==0){
+			if(Krtica.brojPojavljivanja==11+10*level){
 				t.stop();
 				level++;
 				add(lo);lo.setSize(222, 222);lo.setLocation(222, 222);
@@ -100,7 +107,9 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
 	public void mousePressed(MouseEvent e) {
 		if(e.getSource()==b){  
 			Krtica.brojPogodaka ++;
-			text.setText(Krtica.brojPogodaka.toString()+" / "+Krtica.brojPojavljivanja);
+			Krtica.bodovi+=level;
+			kolikoOdKoliko.setText(Krtica.brojPogodaka.toString()+" / "+Krtica.brojPojavljivanja);
+			bodovi.setText(Krtica.bodovi.toString());
 		}
 	}
 
