@@ -55,6 +55,7 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
     @Override
     public void stop() {
     	Krtica.brojPogodaka=0;
+    	Krtica.brojPojavljivanja=0;
     }
 
     @Override
