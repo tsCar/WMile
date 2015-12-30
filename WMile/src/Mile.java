@@ -82,7 +82,8 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
 			kolikoOdKoliko.setText(Krtica.brojPogodaka.toString()+" / "+Krtica.brojPojavljivanja+"    (level "+level+")  "+delay);
 			Krtica.brojPojavljivanja ++;
 			b.setLocation(ThreadLocalRandom.current().nextInt(0, getSize().width-b.getSize().width),ThreadLocalRandom.current().nextInt(0, getSize().height-b.getSize().height));//Znači, x na random od nula do (širina appleta-širina mileta), analogno za y
-			if(Krtica.brojPojavljivanja==11+10*level){
+			if(Krtica.brojPojavljivanja==4+10*level){
+				
 				t.stop();
 				b.setEnabled(false);
 				b.setVisible(false);
