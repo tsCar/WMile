@@ -11,7 +11,7 @@ public class Mile extends JApplet implements ActionListener {
    
     Image backGround;
     Krtica b;
-    TextField text;
+    JTextField text;
     Boolean kliknuto;
     JLabel label;
     
@@ -30,8 +30,9 @@ public class Mile extends JApplet implements ActionListener {
         b.setLocation(100, 100);
         b.setSize(111, 111); 
         kliknuto = false;
-        text = new TextField("tu \u0107e do\u0107 broj\u010di\u0107i");
+        text = new JTextField("tu \u0107e do\u0107 broj\u010di\u0107i");
         add(text);
+        text.setHorizontalAlignment(JTextField.CENTER);
         text.setLocation(getSize().width*3/8, 5);
     	text.setSize(getSize().width/4, 20);
     	 
