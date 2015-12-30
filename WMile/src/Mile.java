@@ -50,7 +50,8 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
     		lo.setLayout(new FlowLayout());
     		lo.addMouseListener(this);
     	
-    	delay=(level==0)?ThreadLocalRandom.current().nextInt(1200,2000): (int)(ThreadLocalRandom.current().nextInt(1200,2000)/(0.2*level)) ;
+    	//delay=(level==0)?ThreadLocalRandom.current().nextInt(1200,2000): (int)(ThreadLocalRandom.current().nextInt(1200,2000)/(0.2*level)) ;
+    	delay=1000;
     	t=new Timer(delay,this );
     	t.start();
 	
@@ -77,18 +78,21 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
     
 	@Override
 	public void actionPerformed(ActionEvent e) {
-	
-			kolikoOdKoliko.setText(Krtica.brojPogodaka.toString()+" / "+Krtica.brojPojavljivanja);
+		
+			kolikoOdKoliko.setText(Krtica.brojPogodaka.toString()+" / "+Krtica.brojPojavljivanja+"    (level "+level+")  "+delay);
 			Krtica.brojPojavljivanja ++;
 			b.setLocation(ThreadLocalRandom.current().nextInt(0, getSize().width-b.getSize().width),ThreadLocalRandom.current().nextInt(0, getSize().height-b.getSize().height));//Znači, x na random od nula do (širina appleta-širina mileta), analogno za y
 			if(Krtica.brojPojavljivanja==11+10*level){
 				t.stop();
+				b.setEnabled(false);
+				b.setVisible(false);
 				level++;
+				delay=(int) ((delay>400) ? delay*0.95:400);
+				t.setInitialDelay(delay);
 				add(lo);lo.setSize(222, 222);lo.setLocation(222, 222);
-				repaint();
 			}
 			else t.restart();
-	
+		
 	}
   
 
@@ -97,6 +101,8 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
 	public void mouseClicked(MouseEvent e) {
 		if (e.getSource()==lo){
 			remove(lo);repaint();
+			b.setEnabled(true);
+			b.setVisible(true);
 			t.restart();
 		}
 		
@@ -108,7 +114,7 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
 		if(e.getSource()==b){  
 			Krtica.brojPogodaka ++;
 			Krtica.bodovi+=level;
-			kolikoOdKoliko.setText(Krtica.brojPogodaka.toString()+" / "+Krtica.brojPojavljivanja);
+			kolikoOdKoliko.setText(Krtica.brojPogodaka.toString()+" / "+Krtica.brojPojavljivanja+"    (level "+level+")");
 			bodovi.setText(Krtica.bodovi.toString());
 		}
 	}
