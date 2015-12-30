@@ -1,12 +1,14 @@
 import java.awt.*;
 import java.awt.event.*;
+
 import javax.swing.*;
 
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.TimeUnit;
 
 
 
-public class Mile extends JApplet implements ActionListener {
+public class Mile extends JApplet implements ActionListener, MouseListener {
     private static final long serialVersionUID = 1;
    
     Image backGround;
@@ -14,6 +16,7 @@ public class Mile extends JApplet implements ActionListener {
     JTextField text;
     Boolean kliknuto;
     JLabel label;
+    Timer t;
     
     @Override
     public void init() {
@@ -27,6 +30,7 @@ public class Mile extends JApplet implements ActionListener {
         b = new Krtica(new ImageIcon(getImage(getCodeBase(), "mile.jpg").getScaledInstance( 100, 100,  java.awt.Image.SCALE_SMOOTH )) );
         add(b);
         b.addActionListener(this);
+        b.addMouseListener(this);
         b.setLocation(100, 100);
         b.setSize(111, 111); 
         kliknuto = false;
@@ -35,8 +39,9 @@ public class Mile extends JApplet implements ActionListener {
         text.setHorizontalAlignment(JTextField.CENTER);
         text.setLocation(getSize().width*3/8, 5);
     	text.setSize(getSize().width/4, 20);
-    	 
-    
+    	t=new Timer(ThreadLocalRandom.current().nextInt(1500,2000),this );
+    	t.start();
+	
       
     }
 
@@ -44,12 +49,7 @@ public class Mile extends JApplet implements ActionListener {
     @Override
     public void start() {
     }
-    @Override
-	public void paint(Graphics g) {
-    	super.paint(g);
-    	//g.drawImage(backGround, 0, 0, this);
-    }
-
+ 
 
 
     @Override
@@ -60,17 +60,57 @@ public class Mile extends JApplet implements ActionListener {
     @Override
     public void destroy() {
     }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        Krtica.brojPogodaka ++;
-        kliknuto = !kliknuto;
-        backGround = kliknuto ? getImage(getCodeBase(), "slika2.jpg") :getImage(getCodeBase(), "slika.jpg");
-        text.setText(Krtica.brojPogodaka.toString());
-        label.setIcon(new ImageIcon(backGround));
-    	b.setLocation(ThreadLocalRandom.current().nextInt(0, getSize().width-b.getSize().width),ThreadLocalRandom.current().nextInt(0, getSize().height-b.getSize().height));//Znači, x na random od nula do (širina appleta-širina mileta), analogno za y
     
-    	
-       repaint();
-    }
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		   
+		text.setText(Krtica.brojPogodaka.toString()+" / "+Krtica.brojPojavljivanja);
+		Krtica.brojPojavljivanja ++;
+		b.setLocation(ThreadLocalRandom.current().nextInt(0, getSize().width-b.getSize().width),ThreadLocalRandom.current().nextInt(0, getSize().height-b.getSize().height));//Znači, x na random od nula do (širina appleta-širina mileta), analogno za y
+		t.restart();
+		
+	}
+  
+
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		
+		
+	}
+
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		Krtica.brojPogodaka ++;
+        text.setText(Krtica.brojPogodaka.toString()+" / "+Krtica.brojPojavljivanja);
+        //b.setLocation(ThreadLocalRandom.current().nextInt(0, getSize().width-b.getSize().width),ThreadLocalRandom.current().nextInt(0, getSize().height-b.getSize().height));//Znači, x na random od nula do (širina appleta-širina mileta), analogno za y
+        //t.restart(); 
+	}
+
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+    
 }
+    
