@@ -1,6 +1,7 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+
 import java.util.concurrent.ThreadLocalRandom;
 
 
@@ -12,23 +13,28 @@ public class Mile extends JApplet implements ActionListener {
     Krtica b;
     TextField text;
     Boolean kliknuto;
-    ImageIcon mile;
+    JLabel label;
     
     @Override
     public void init() {
+    	 
         setLayout(null);
         backGround = getImage(getCodeBase(), "slika.jpg");
-        mile=new ImageIcon(getImage(getCodeBase(), "mile.jpg").getScaledInstance( 100, 100,  java.awt.Image.SCALE_SMOOTH ) );
-        b = new Krtica(mile);
+        label = new JLabel(new ImageIcon(backGround));
+        setContentPane(label);
+        
+    	
+        b = new Krtica(new ImageIcon(getImage(getCodeBase(), "mile.jpg").getScaledInstance( 100, 100,  java.awt.Image.SCALE_SMOOTH )) );
         add(b);
         b.addActionListener(this);
+        b.setLocation(100, 100);
+        b.setSize(111, 111); 
         kliknuto = false;
         text = new TextField("tu \u0107e do\u0107 broj\u010di\u0107i");
         add(text);
-        text.setLocation(200, 50);
-    	b.setLocation(100, 100);
-    	text.setSize(80, 20);
-    	b.setSize(111, 111);  
+        text.setLocation(getSize().width*3/8, 5);
+    	text.setSize(getSize().width/4, 20);
+    	 
     
       
     }
@@ -40,7 +46,7 @@ public class Mile extends JApplet implements ActionListener {
     @Override
 	public void paint(Graphics g) {
     	super.paint(g);
-    	g.drawImage(backGround, 0, 0, this);
+    	//g.drawImage(backGround, 0, 0, this);
     }
 
 
@@ -60,8 +66,7 @@ public class Mile extends JApplet implements ActionListener {
         kliknuto = !kliknuto;
         backGround = kliknuto ? getImage(getCodeBase(), "slika2.jpg") :getImage(getCodeBase(), "slika.jpg");
         text.setText(Krtica.brojPogodaka.toString());
-        
-        text.setLocation(200, 50);
+        label.setIcon(new ImageIcon(backGround));
     	b.setLocation(ThreadLocalRandom.current().nextInt(0, getSize().width-b.getSize().width),ThreadLocalRandom.current().nextInt(0, getSize().height-b.getSize().height));//Znači, x na random od nula do (širina appleta-širina mileta), analogno za y
     
     	
