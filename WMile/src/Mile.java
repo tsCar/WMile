@@ -22,9 +22,9 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
     JLabel label;
     Timer t;
     int delay,sirinaSjene=30; //oprezno s ovim, množi se s konstantom u klasi Sjena a ne smije preć 254
-    Sjena popupIzmeduLevela,popupVic;
-    ImageIcon marina,dzontra;
-    JTextArea textZaPopupIzmeduLevela,textZaPopupVic;
+    Sjena popupIzmeduLevela,popupVic,popupFail;
+    ImageIcon marina,dzontra,ipsix;
+    JTextArea textZaPopupIzmeduLevela,textZaPopupVic,textZaPopupFail;
     String[] vicevi ={"Prvi vic","drugi vic","trećivic","sdfa","dfasdfJHFGHFGJHGHGHasd","fawd"};
     
     @Override
@@ -46,6 +46,8 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
         	mile.setSize(100, 100);
         	mile.setLocation(ThreadLocalRandom.current().nextInt(0, getSize().width-mile.getSize().width),ThreadLocalRandom.current().nextInt(0, getSize().height-mile.getSize().height));
         	mile.setBorderPainted(false);
+        	mile.setEnabled(false);
+			mile.setVisible(false);
         	 
         kliknuto = false;
         kolikoOdKoliko = new JTextField(Krtica.brojPogodaka.toString()+" / "+Krtica.brojPojavljivanja+"    (level "+Krtica.level+" - "+delay+"s)");
@@ -75,9 +77,7 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
     		JLabel thumb = new JLabel();
     		thumb.setIcon(marina);
     		popupIzmeduLevela.add(thumb,BorderLayout.EAST);
-    		mile.setEnabled(false);
-			mile.setVisible(false);
-			add(popupIzmeduLevela);
+    		add(popupIzmeduLevela);
 			popupIzmeduLevela.setSize(3*marina.getIconWidth()+2*sirinaSjene, marina.getIconHeight()+2*sirinaSjene);
 			popupIzmeduLevela.setLocation(getSize().width/2-(3*marina.getIconWidth()+2*sirinaSjene)/2, 222);
     	//delay=(level==0)?ThreadLocalRandom.current().nextInt(1200,2000): (int)(ThreadLocalRandom.current().nextInt(1200,2000)/(0.2*level)) ;
@@ -95,14 +95,31 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
 			JLabel thumb2 = new JLabel();
 			thumb2.setIcon(dzontra);
 			popupVic.add(thumb2,BorderLayout.EAST);
-			mile.setEnabled(false);
-			mile.setVisible(false);
 			popupVic.setVisible(false);
 			popupVic.setEnabled(false);
 			add(popupVic);
 			popupVic.setSize(3*dzontra.getIconWidth()+2*sirinaSjene, dzontra.getIconHeight()+2*sirinaSjene);
 			popupVic.setLocation(getSize().width/2-(3*dzontra.getIconWidth()+2*sirinaSjene)/2, 222);
-		
+		popupFail=new Sjena(sirinaSjene,254,-6,0,6,0,0);
+	    	popupFail.setLayout(new BorderLayout());
+	    	popupFail.addMouseListener(this);
+			ipsix = new ImageIcon(getImage(getCodeBase(), "ipsix.jpg")); 
+			textZaPopupFail =new JTextArea("Joj, joj, joj, "+Krtica.pogodakaOvajLevel.toString()+"/10\nTrebalo je to bolje...\nZnate, kolega, ovo Vam ne može iti za prolaz.");
+			textZaPopupFail.setEditable(false);
+			textZaPopupFail.addMouseListener(this);
+			popupFail.add(textZaPopupFail,BorderLayout.WEST);
+			textZaPopupFail.setLineWrap(true);
+			textZaPopupFail.setSize(2*ipsix.getIconWidth(), ipsix.getIconHeight());
+			textZaPopupFail.setFont(new Font("Arial",Font.ITALIC,6));
+			JLabel thumb22 = new JLabel();
+			thumb22.setIcon(ipsix);
+			popupFail.add(thumb22,BorderLayout.EAST);
+			popupFail.setEnabled(false);
+			popupFail.setVisible(false);
+			add(popupFail);
+			popupFail.setSize(3*ipsix.getIconWidth()+2*sirinaSjene, ipsix.getIconHeight()+2*sirinaSjene);
+			popupFail.setLocation(getSize().width/2-(3*ipsix.getIconWidth()+2*sirinaSjene)/2, 222);
+	    	
 		
 		delay=1000;
     	t=new Timer(delay,this );
@@ -114,6 +131,7 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
 
     @Override
     public void start() {
+    	
     }
  
 
@@ -123,10 +141,12 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
     	Krtica.brojPogodaka=0;
     	Krtica.brojPojavljivanja=0;
     	Krtica.level=0;
-    	popupIzmeduLevela.setEnabled(true);
-		popupIzmeduLevela.setVisible(true);
-		textZaPopupIzmeduLevela.setText("Joj, joj, joj, "+Krtica.pogodakaOvajLevel.toString()+"/10");
-		
+    	popupIzmeduLevela.setVisible(false);
+		popupIzmeduLevela.setEnabled(false);
+		popupFail.setVisible(true);
+		popupFail.setEnabled(true);
+
+   
     }
 
     @Override
@@ -177,29 +197,36 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		if(e.getSource()!=mile){
-			if (e.getSource()==popupIzmeduLevela || e.getSource()==textZaPopupIzmeduLevela){
-				popupIzmeduLevela.setEnabled(false);
-				popupIzmeduLevela.setVisible(false);
-				if(Krtica.level>1){
-					popupVic.setVisible(true);
-					popupVic.setEnabled(true);
-					repaint();
-				}
-				else {
-					mile.setEnabled(true);
-					mile.setVisible(true);
-					t.restart();
-				}
+		if (e.getSource()==popupIzmeduLevela || e.getSource()==textZaPopupIzmeduLevela){
+			popupIzmeduLevela.setEnabled(false);
+			popupIzmeduLevela.setVisible(false);
+			if(Krtica.level>1){
+				popupVic.setVisible(true);
+				popupVic.setEnabled(true);
+				repaint();
 			}
-			else{
-				popupVic.setVisible(false);
-				popupVic.setEnabled(false);
+			else {
 				mile.setEnabled(true);
 				mile.setVisible(true);
 				t.restart();
 			}
-		}		
+		}
+		else if (e.getSource()==popupVic || e.getSource()==textZaPopupVic){
+			popupVic.setVisible(false);
+			popupVic.setEnabled(false);
+			mile.setEnabled(true);
+			mile.setVisible(true);
+			t.restart();
+		}
+		else if(e.getSource()==popupFail || e.getSource()==textZaPopupFail){
+			popupFail.setEnabled(false);
+			popupFail.setVisible(false);
+			textZaPopupIzmeduLevela.setText("Znači, idemo ponovo:");
+			popupIzmeduLevela.setVisible(true);
+			popupIzmeduLevela.setEnabled(true);
+			repaint();
+		}
+		
 	}
 
 
