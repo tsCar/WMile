@@ -11,6 +11,7 @@ import java.util.concurrent.ThreadLocalRandom;
 //Džontra i vicevi --  još samo dodat viceve
 //možda dodat još krtica na višim levelima
 //promijenit slike pozadine
+//dodat gmble na score na kraju
 
 public class Mile extends JApplet implements ActionListener, MouseListener {
     private static final long serialVersionUID = 1;
@@ -29,17 +30,23 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
     
     @Override
     public void init() {
+    	try {
+			Db.upis(getCodeBase().toString(),"asdf","grga",1234);
+		} catch (Exception e) {
+			System.out.println("gergaerg");
+			e.printStackTrace();
+		}
     	Krtica.bodovi=new Integer(0);
     	Krtica.brojPogodaka=new Integer(0);
     	Krtica.level=new Integer(0);
     	Krtica.brojPojavljivanja=new Integer(1);
     	Krtica.pogodakaOvajLevel=new Integer(0);//namjerno nije inicijalizirano u Krtici jer razmišljam o tome da usred igre možda dodam još jednu a ne želim da se vrijednosti izbrišu.   
         setLayout(null);
-        backGround = getImage(getCodeBase(), "slika.jpg");
+        backGround = getImage(getCodeBase(), "../resources/slika.jpg");
         label = new JLabel(new ImageIcon(backGround));
         setContentPane(label);
             	
-        mile = new Krtica(new ImageIcon(getImage(getCodeBase(), "mile.jpg").getScaledInstance( 100, 100,  java.awt.Image.SCALE_SMOOTH )) );
+        mile = new Krtica(new ImageIcon(getImage(getCodeBase(), "../resources/mile.jpg").getScaledInstance( 100, 100,  java.awt.Image.SCALE_SMOOTH )) );
         	add(mile);
         	mile.addActionListener(this);
         	mile.addMouseListener(this);
@@ -67,8 +74,8 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
     	popupIzmeduLevela=new Sjena(sirinaSjene,254,-6,0,0,0,6);
     		popupIzmeduLevela.setLayout(new BorderLayout());
     		popupIzmeduLevela.addMouseListener(this);
-    		marina = new ImageIcon(getImage(getCodeBase(), "marinai.jpg")); 
-    		textZaPopupIzmeduLevela =new JTextArea("Dobrodošli! Ovo je kratki tutorial. Znači, kad se Mile pojavi,\nti ga klikni. Ne bi čovjek rekao,\njel'da? \nKasnije postane teže...");
+    		marina = new ImageIcon(getImage(getCodeBase(), "../resources/marinai.jpg")); 
+    		textZaPopupIzmeduLevela =new JTextArea("Dobrodošli! Ovo je kratki tutorial. Znači, kad se Mile pojavi,\nVi ga kliknite. Ne bi čovjek rekao,\njel'da? \nKasnije postane teže...");
        		textZaPopupIzmeduLevela.setEditable(false);
        		textZaPopupIzmeduLevela.addMouseListener(this);
     		popupIzmeduLevela.add(textZaPopupIzmeduLevela,BorderLayout.WEST);
@@ -85,7 +92,7 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
 		popupVic=new Sjena(sirinaSjene,0,0,254,-6,0,6);
 			popupVic.setLayout(new BorderLayout());
 			popupVic.addMouseListener(this);
-			dzontra = new ImageIcon(getImage(getCodeBase(), "dzontra.jpg")); 
+			dzontra = new ImageIcon(getImage(getCodeBase(), "../resources/dzontra.jpg")); 
 			textZaPopupVic =new JTextArea("vic");
 			textZaPopupVic.setEditable(false);
 			textZaPopupVic.addMouseListener(this);
@@ -100,10 +107,10 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
 			add(popupVic);
 			popupVic.setSize(3*dzontra.getIconWidth()+2*sirinaSjene, dzontra.getIconHeight()+2*sirinaSjene);
 			popupVic.setLocation(getSize().width/2-(3*dzontra.getIconWidth()+2*sirinaSjene)/2, 222);
-		popupFail=new Sjena(sirinaSjene,254,-6,0,6,0,0);
+		popupFail=new Sjena(sirinaSjene,0,6,254,-6,0,0);
 	    	popupFail.setLayout(new BorderLayout());
 	    	popupFail.addMouseListener(this);
-			ipsix = new ImageIcon(getImage(getCodeBase(), "ipsix.jpg")); 
+			ipsix = new ImageIcon(getImage(getCodeBase(), "../resources/ipsix.jpg")); 
 			textZaPopupFail =new JTextArea("Joj, joj, joj, "+Krtica.pogodakaOvajLevel.toString()+"/10\nTrebalo je to bolje...\nZnate, kolega, ovo Vam ne može iti za prolaz.");
 			textZaPopupFail.setEditable(false);
 			textZaPopupFail.addMouseListener(this);
@@ -163,7 +170,7 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
 			kolikoOdKoliko.setText("---");
 			Krtica.level++;
 			kliknuto = !kliknuto;
-			backGround = kliknuto ? getImage(getCodeBase(), "slika2.jpg") :getImage(getCodeBase(), "slika.jpg");
+			backGround = kliknuto ? getImage(getCodeBase(), "../resources/slika2.jpg") :getImage(getCodeBase(), "../resources/slika.jpg");
 			label.setIcon(new ImageIcon(backGround));
 			setContentPane(label);  //mijenja pozadinu appleta svaki level
 			t.stop();//zaustavi timer, da se ne pojavljuje Mile dok je aktivan popup
@@ -176,15 +183,15 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
 			if(Krtica.level==1) {
 				switch (Krtica.brojPogodaka){
 				case 0:	textZaPopupIzmeduLevela.setText("Pa niti jednog? Realno, nije bilo teško, trebali ste moć...");break;
-				case 1: textZaPopupIzmeduLevela.setText("Ma da, kolega, pogodili ste jednoga ali to nije dovoljno. Nula bodova");break;
+				case 1: textZaPopupIzmeduLevela.setText("Ma da, kolega, pogodili ste jednoga \nali to nije dovoljno. \n0 bodova");break;
 				case 2: textZaPopupIzmeduLevela.setText("Ma, kolega, pogodili ste 2/3 ali nije to bilo dobro.\nOvog prvog niste potpuno, ovog drugog niste objasnili kako ste pogodili... \nNišta, 0 bodova");break;
-				case 3: textZaPopupIzmeduLevela.setText("Ma kolega, jeste Vi pogodili sva tri ali prvoga niste dovoljno precizno, drugog niste baš kako treba a ovog trećeg ste dobro ali ne onako kako sam ja zamislila. To će Vam bit 0 bodova.");break;
+				case 3: textZaPopupIzmeduLevela.setText("Ma kolega, jeste Vi pogodili sva \ntri ali prvoga niste dovoljno \nprecizno, drugog niste baš \nkako treba a ovog trećeg ste \ndobro ali ne onako kako sam \nja zamislila. \nTo će Vam bit \n0 bodova.");break;
 				}
 			}
 			else{
 				if (Krtica.pogodakaOvajLevel<5)stop();
 				else{
-					textZaPopupIzmeduLevela.setText("Dakle, \n"+Krtica.pogodakaOvajLevel.toString()+" pogodaka x "+Krtica.level+ "+ stari bodovi\n="+Krtica.bodovi);
+					textZaPopupIzmeduLevela.setText("Dakle, \n"+Krtica.pogodakaOvajLevel.toString()+" pogodaka x "+(Krtica.level-1)+ "+ stari bodovi\n="+Krtica.bodovi);
 					}
 				}
 			textZaPopupVic.setText("Je vrijeme za vic? \nJesmo pričali onaj kad "+vicevi[ThreadLocalRandom.current().nextInt(0,vicevi.length)]);
