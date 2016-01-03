@@ -14,8 +14,7 @@ public class Db{
     URL                 url=null;
     HttpURLConnection   urlConn=null;
     DataOutputStream    printout=null;
-    
-    url = new URL (link+"/baza.php");
+    url = new URL (link+"../baza.php");
      //java.net.URL url = new URL(null, "http://whackamile.byethost3.com/baza.php",new sun.net.www.protocol.https.Handler());
     urlConn = (HttpURLConnection) url.openConnection();  
     urlConn.setDoOutput (true);
@@ -33,7 +32,7 @@ public class Db{
     
     BufferedReader in = new BufferedReader(new InputStreamReader(
             urlConn.getInputStream()));
-    String inputLine="!nista",m = "";
+    String inputLine="!nista",m = "m";
     while ((inputLine = in.readLine()) != null) 
         m=m+inputLine;
     in.close();

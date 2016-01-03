@@ -8,8 +8,8 @@ import java.util.concurrent.ThreadLocalRandom;
 
 //TODO 
 //Možda promijenit pointer
-//Baza+score
-//validirat password
+
+//validirat password, doradit formu (izgled)
 //Džontra i vicevi --  još samo dodat viceve
 //možda dodat još krtica na višim levelima
 //promijenit slike pozadine
@@ -32,9 +32,11 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
     String[] vicevi ={"Prvi vic","drugi vic","trećivic","sdfa","dfasdfJHFGHFGJHGHGHasd","fawd"};
     String s;
     GridBagConstraints c = new GridBagConstraints();
-    int krticaPoLevelu=2,brojZaDisplay;
+    int krticaPoLevelu=10,brojZaDisplay;
     @Override
     public void init() {
+    
+		
     	brojZaDisplay=3;
     	Krtica.bodovi=new Integer(0);
     	Krtica.brojPogodaka=new Integer(0);
@@ -134,7 +136,7 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
 			c.gridy=1;
 			
 			userZaBazu=new JTextField("nick");//System.getProperty("user.name"));  //Ne može, ne da Java! -.- Možda kad riješim potpis appleta...
-			userZaBazu.addFocusListener(new FocusListener() {
+			/*userZaBazu.addFocusListener(new FocusListener() {
 				@Override
 				public void focusLost(FocusEvent e) {
 					// TODO Auto-generated method stub
@@ -143,11 +145,11 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
 				public void focusGained(FocusEvent e) {
 					userZaBazu.setText("");					
 				}
-			});
+			});*/
 			c.gridy = 2;
 			bazaBodova.add(userZaBazu,c);
 			passZaBazu=new JTextField("password");
-			passZaBazu.addFocusListener(new FocusListener() {
+		/*	passZaBazu.addFocusListener(new FocusListener() {
 				@Override
 				public void focusLost(FocusEvent e) {
 					// TODO Auto-generated method stub
@@ -156,7 +158,7 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
 				public void focusGained(FocusEvent e) {
 					passZaBazu.setText("");					
 				}
-			});
+			});*/
 			c.gridy = 3;
 			c.insets = new Insets(3,0,0,0); 
 			bazaBodova.add(passZaBazu,c);
@@ -178,9 +180,7 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
 			
 		delay=1000;
     	t=new Timer(delay,this );
-    	//t.start();
-	
-      
+   
     }
 
 
@@ -195,10 +195,11 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
     public void stop() {
     	Krtica.brojPogodaka=0;
     	Krtica.brojPojavljivanja=1;
-    	Krtica.level=0;
+    	//Krtica.level=0;
     	popupIzmeduLevela.setVisible(false);
 		popupIzmeduLevela.setEnabled(false);
 		textZaPopupFail.setText("Joj, joj, joj, "+Krtica.pogodakaOvajLevel.toString()+"/"+krticaPoLevelu+"\nTrebalo je to bolje...\nZnate, kolega, ovo Vam ne može iti za prolaz.");
+		Krtica.pogodakaOvajLevel=0;
 		popupFail.setVisible(true);
 		popupFail.setEnabled(true);
 	
@@ -283,10 +284,10 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
 			popupFail.setEnabled(false);
 			popupFail.setVisible(false);
 			textZaPopupIzmeduLevela.setText("Znači, idemo ponovo:");
-			brojZaDisplay=3;
+			Krtica.level=1;
 			bazaBodova.setVisible(true);
 			bazaBodova.setEnabled(true);
-			bazaBodova.add(new JLabel(Krtica.bodovi.toString()));
+			//bazaBodova.add(new JLabel(Krtica.bodovi.toString()));
 			repaint();
 		}
 		else if(e.getSource()==okZaBazuBodova){
@@ -295,10 +296,12 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
 			}
 			else{*/
 				try {
-					s=Db.upis(getCodeBase().toString(),userZaBazu.toString(),passZaBazu.toString(),Krtica.bodovi);
-					textZaPopupIzmeduLevela.setText(s);
-				} catch (Exception ex) {
+					s=Db.upis(getCodeBase().toString(),userZaBazu.getText(),passZaBazu.getText(),Krtica.bodovi);
+					//textZaPopupIzmeduLevela.setText(s);
 					
+					
+				} catch (Exception ex) {
+					textZaPopupIzmeduLevela.setText(ex.toString());
 				}
 				finally{
 					bazaBodova.setEnabled(false);
@@ -309,11 +312,13 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
 				}
 			//}
 			Krtica.bodovi=0;
+			bodovi.setText(Krtica.bodovi.toString());
 		}
 		else if(e.getSource()==notOkZaBazu){
 			bazaBodova.setEnabled(false);
 			bazaBodova.setVisible(false);
 			Krtica.bodovi=0;
+			bodovi.setText(Krtica.bodovi.toString());
 			
 			
 			popupIzmeduLevela.setVisible(true);
