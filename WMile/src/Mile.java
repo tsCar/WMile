@@ -209,11 +209,8 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
 		Krtica.pogodakaOvajLevel=0;
 		popupFail.setVisible(true);
 		popupFail.setEnabled(false);
-		Timer cekajFail = new Timer(750, new ActionListener() {
-		    public void actionPerformed(ActionEvent e) { 
-		    	popupFail.setEnabled(true);
-		    }
-		});
+		Tibor t=new Tibor(popupFail);
+		Timer cekajFail = new Timer(750, t);
 		cekajFail.setRepeats(false);
 		cekajFail.start();
     }
@@ -242,11 +239,8 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
 				t.setInitialDelay(delay);
 				popupIzmeduLevela.setVisible(true);
 				popupIzmeduLevela.setEnabled(false);
-				Timer cekajIzmedu = new Timer(750, new ActionListener() {
-				    public void actionPerformed(ActionEvent e) { 
-				    	popupIzmeduLevela.setEnabled(true);
-				    }
-				});
+				Tibor t2=new Tibor(popupIzmeduLevela);
+				Timer cekajIzmedu = new Timer(750, t2);
 				cekajIzmedu.setRepeats(false);
 				cekajIzmedu.start();
 			
