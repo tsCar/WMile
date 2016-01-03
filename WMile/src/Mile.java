@@ -3,17 +3,18 @@ import java.awt.event.*;
 
 import javax.swing.*;
 
+import java.util.TimerTask;
 import java.util.concurrent.ThreadLocalRandom;
 
 
 //TODO 
-//Možda promijenit pointer
-
+//Promijenit pointer
 //validirat password, doradit formu (izgled)
-//Džontra i vicevi --  još samo dodat viceve
+//potpisat applet pa vidjet dal će radit focus listeneri
 //možda dodat još krtica na višim levelima
 //promijenit slike pozadine
-//dodat gmble na score na kraju
+//dodat gamble na score na kraju
+//napravit da stranica na nešto liči...
 
 public class Mile extends JApplet implements ActionListener, MouseListener {
     private static final long serialVersionUID = 1;
@@ -29,7 +30,21 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
     JButton okZaBazuBodova,notOkZaBazu;
     ImageIcon marina,dzontra,ipsix;
     JTextArea textZaPopupIzmeduLevela,textZaPopupVic,textZaPopupFail;
-    String[] vicevi ={"Prvi vic","drugi vic","trećivic","sdfa","dfasdfJHFGHFGJHGHGHasd","fawd"};
+    String[] vicevi={ "Pita tata \"Sine, zašto želiš postati nogometni sudac?\n-Zato jer mi se fućka za nogomet!","Dodje Bruce Willis u trgovinu informaticke opreme i kaze:daj hard",
+    		"Sastanu se Kinez i Slovenac na poslovnom ručku i pita Kinez 'Koliko vas ima?'\n'Oko 2 milijuna' odvrati Slovenac.'U kojem hotelu ste odsjeli?'" +
+    		",Tata, tata, jel istina da internet poglupljuje?\n- WTF? ROFLMAO!","Što radi Cigo na kompjuteru?\nKopa po recycle binu!",
+    		"Idu dva psa ulicom jedan se češka drugi slovačka.","Što učiniti kad vas muče sinusi - jednostavno; derivirajte ih",
+    		"I petog dana stvori Bog Microsoft.I sestog dana stvori Win95. A sedmog dana, malo stane, odmori se i formatira svemir.",
+    		"Zašto su amebe zbunile matematičare?Zato što se množe dijeljenjem!","Sta kaze John Wayne kad vidi krdo bizona?? kaže gle! krdo bizona!",
+    		"Idu dva broda, jedan tone, drugi kile.","plavuša zove hgspot...\nserviser: kako vam mogu pomoći?\nplavuša: ne radi mi printer...\nserviser: kakvu vam grešku javlja kompjuter?\nplavuša: on kaže da ga ne prepoznaje, a stavila sam ga ispred njega...",
+    		"što se dogodi gubavcu kad vidi lijepu žensku?\nispadnu mu oči","Idu dva robota ulicom, jedan će drugome:\n- Čuo sam da ti se roditelji rastavljaju!","dolazi neka baba kod doktora\nKoji je Vas problem? pita doktor\n...suzi mi oko...\n...i on joj suzi oko",
+    		"Što je to malo bijelo i ne vidi se?\nčaša mlijeka iza kuće...","Pitali Muja sta slusa\nSlusam sve zivo. I Michaela Jacksona.","Bacač koplja kaze klupskom kolegi: \"Danas se moram jako potruditi, u gledalistu mi je punica.\" Kolega odgovara: \"Čovječe, to je preko sto metara, tesko da ćes je pogoditi!\"",
+    		"Kada je Pinokijo shvatio da je napravljen od drveta? - Kada mu se je zapalila desna ruka.","Sto bi se dogodilo kad bi se nasa Vlada nasla u pustinji? Prvo bi se čudili, zatim bi sazvali sastanak i onda bi pijesak poskupio.",
+    		"Sto je zajedničko onome koji laze i onome koji krade? Obojicu čeka saborska mirovina.","Pesimist vidi samo tamu u tunelu. Optimist vidi svjetlo na kraju tunela. Realist vidi svjetla vlaka. Strojovodja vidi tri idiota na pruzi.",
+    		"Pas je zaista čovjekov najbolji prijatelj. Ako ne vjerujete pokusajte sljedeći eksperiment. Stavite psa i zenu u gepek automobila i ostavite ih zaključane dva sata. Kada otvorite gepek - tko će vam se iskreno obradovati?",
+    		"Mozak je fantastičan organ: počne raditi čim se ujutro probudis i ne prestaje sve dok ne dodjes na faks","Koja je razlika izmedju prijatelja kuće i kućnog prijatelja?\nPrijatelj kuće dodje kada hoće, a kućni prijatelj hoće kada dodje.",
+    		"Kada zena od muza moze stvoriti milijunasa? Samo onda kada je muz milijarder.","Kako počinje i kako zavrsava zivot jednog motoriste? Pukne guma!"
+    		};
     String s;
     GridBagConstraints c = new GridBagConstraints();
     int krticaPoLevelu=10,brojZaDisplay;
@@ -54,9 +69,7 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
         	mile.setSize(100, 100);
         	mile.setLocation(ThreadLocalRandom.current().nextInt(0, getSize().width-mile.getSize().width),ThreadLocalRandom.current().nextInt(0, getSize().height-mile.getSize().height));
         	mile.setBorderPainted(false);
-        	mile.setEnabled(false);
-			mile.setVisible(false);
-        	 
+			mile.setVisible(false); 
         kliknuto = false;
         kolikoOdKoliko = new JTextField(Krtica.brojPogodaka.toString()+" / "+brojZaDisplay+"    (level "+Krtica.level+" - "+delay+"s)");
         	add(kolikoOdKoliko);
@@ -88,14 +101,13 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
     		add(popupIzmeduLevela);
 			popupIzmeduLevela.setSize(3*marina.getIconWidth()+2*sirinaSjene, marina.getIconHeight()+2*sirinaSjene);
 			popupIzmeduLevela.setLocation(getSize().width/2-(3*marina.getIconWidth()+2*sirinaSjene)/2, 222);
-    	//delay=(level==0)?ThreadLocalRandom.current().nextInt(1200,2000): (int)(ThreadLocalRandom.current().nextInt(1200,2000)/(0.2*level)) ;
-    	
 		popupVic=new Sjena(sirinaSjene,0,0,254,-6,0,6);
 			popupVic.setLayout(new BorderLayout());
 			popupVic.addMouseListener(this);
 			dzontra = new ImageIcon(getImage(getCodeBase(), "../resources/dzontra.jpg")); 
 			textZaPopupVic =new JTextArea("vic");
 			textZaPopupVic.setEditable(false);
+			textZaPopupVic.scrollRectToVisible(getBounds());
 			textZaPopupVic.addMouseListener(this);
 			popupVic.add(textZaPopupVic,BorderLayout.WEST);
 			textZaPopupVic.setLineWrap(true);
@@ -104,7 +116,6 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
 			thumb2.setIcon(dzontra);
 			popupVic.add(thumb2,BorderLayout.EAST);
 			popupVic.setVisible(false);
-			popupVic.setEnabled(false);
 			add(popupVic);
 			popupVic.setSize(3*dzontra.getIconWidth()+2*sirinaSjene, dzontra.getIconHeight()+2*sirinaSjene);
 			popupVic.setLocation(getSize().width/2-(3*dzontra.getIconWidth()+2*sirinaSjene)/2, 222);
@@ -122,7 +133,6 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
 			JLabel thumb22 = new JLabel();
 			thumb22.setIcon(ipsix);
 			popupFail.add(thumb22,BorderLayout.EAST);
-			popupFail.setEnabled(false);
 			popupFail.setVisible(false);
 			add(popupFail);
 			popupFail.setSize(3*ipsix.getIconWidth()+2*sirinaSjene, ipsix.getIconHeight()+2*sirinaSjene);
@@ -171,8 +181,7 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
 			c.gridx=3;
 			notOkZaBazu=new JButton("Nemoj unijeti");
 			notOkZaBazu.addMouseListener(this);
-			bazaBodova.add(notOkZaBazu,c);
-			bazaBodova.setEnabled(false);
+			bazaBodova.add(notOkZaBazu,c);	
 			bazaBodova.setVisible(false);
 			add(bazaBodova);
 			bazaBodova.setSize(3*ipsix.getIconWidth()+2*sirinaSjene, ipsix.getIconHeight()+2*sirinaSjene);
@@ -195,16 +204,18 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
     public void stop() {
     	Krtica.brojPogodaka=0;
     	Krtica.brojPojavljivanja=1;
-    	//Krtica.level=0;
     	popupIzmeduLevela.setVisible(false);
-		popupIzmeduLevela.setEnabled(false);
 		textZaPopupFail.setText("Joj, joj, joj, "+Krtica.pogodakaOvajLevel.toString()+"/"+krticaPoLevelu+"\nTrebalo je to bolje...\nZnate, kolega, ovo Vam ne može iti za prolaz.");
 		Krtica.pogodakaOvajLevel=0;
 		popupFail.setVisible(true);
-		popupFail.setEnabled(true);
-	
-
-   
+		popupFail.setEnabled(false);
+		Timer cekajFail = new Timer(750, new ActionListener() {
+		    public void actionPerformed(ActionEvent e) { 
+		    	popupFail.setEnabled(true);
+		    }
+		});
+		cekajFail.setRepeats(false);
+		cekajFail.start();
     }
 
     @Override
@@ -226,12 +237,19 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
 				label.setIcon(new ImageIcon(backGround));
 				setContentPane(label);  //mijenja pozadinu appleta svaki level
 				t.stop();//zaustavi timer, da se ne pojavljuje Mile dok je aktivan popup
-				mile.setEnabled(false);
-				mile.setVisible(false);//sakrije i disable-a zadnjeg Mileta koji je bio nacrtan
+				mile.setVisible(false);//sakrije  zadnjeg Mileta koji je bio nacrtan
 				delay=(int) ((delay>400) ? delay*0.95:400);
 				t.setInitialDelay(delay);
-				popupIzmeduLevela.setEnabled(true);
 				popupIzmeduLevela.setVisible(true);
+				popupIzmeduLevela.setEnabled(false);
+				Timer cekajIzmedu = new Timer(750, new ActionListener() {
+				    public void actionPerformed(ActionEvent e) { 
+				    	popupIzmeduLevela.setEnabled(true);
+				    }
+				});
+				cekajIzmedu.setRepeats(false);
+				cekajIzmedu.start();
+			
 				if(Krtica.level==1) {
 					switch (Krtica.brojPogodaka){
 					case 0:	textZaPopupIzmeduLevela.setText("Pa niti jednog? Realno, nije bilo teško, trebali ste moć...");break;
@@ -249,7 +267,7 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
 						Krtica.pogodakaOvajLevel=0;
 						}
 					}
-				textZaPopupVic.setText("Je vrijeme za vic? \nJesmo pričali onaj kad "+vicevi[ThreadLocalRandom.current().nextInt(0,vicevi.length)]);
+				textZaPopupVic.setText("Je vrijeme za vic? \nJesmo pričali onaj kad...\n "+vicevi[ThreadLocalRandom.current().nextInt(0,vicevi.length)]);
 				}
 			else t.restart();
 		}
@@ -260,35 +278,32 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		if (e.getSource()==popupIzmeduLevela || e.getSource()==textZaPopupIzmeduLevela){
-			popupIzmeduLevela.setEnabled(false);
-			popupIzmeduLevela.setVisible(false);
-			if(Krtica.level>1){
-				popupVic.setVisible(true);
-				popupVic.setEnabled(true);
-				repaint();
-			}
-			else {
-				mile.setEnabled(true);
-				mile.setVisible(true);
-				t.restart();
+			if(popupIzmeduLevela.isEnabled()){
+				popupIzmeduLevela.setVisible(false);
+				if(Krtica.level>1){
+					popupVic.setVisible(true);
+					repaint();
+				}
+				else {
+					mile.setVisible(true);
+					t.restart();
+				}
 			}
 		}
 		else if (e.getSource()==popupVic || e.getSource()==textZaPopupVic){
 			popupVic.setVisible(false);
-			popupVic.setEnabled(false);
-			mile.setEnabled(true);
 			mile.setVisible(true);
 			t.restart();
 		}
 		else if(e.getSource()==popupFail || e.getSource()==textZaPopupFail){
-			popupFail.setEnabled(false);
-			popupFail.setVisible(false);
-			textZaPopupIzmeduLevela.setText("Znači, idemo ponovo:");
-			Krtica.level=1;
-			bazaBodova.setVisible(true);
-			bazaBodova.setEnabled(true);
-			//bazaBodova.add(new JLabel(Krtica.bodovi.toString()));
-			repaint();
+			if(popupFail.isEnabled()){
+				popupFail.setVisible(false);
+				textZaPopupIzmeduLevela.setText("Znači, idemo ponovo:");
+				Krtica.level=1;
+				bazaBodova.setVisible(true);
+				//bazaBodova.add(new JLabel(Krtica.bodovi.toString()));
+				repaint();
+			}
 		}
 		else if(e.getSource()==okZaBazuBodova){
 		/*	if(passZaBazu.toString()=="password"){
@@ -304,10 +319,8 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
 					textZaPopupIzmeduLevela.setText(ex.toString());
 				}
 				finally{
-					bazaBodova.setEnabled(false);
 					bazaBodova.setVisible(false);
 					popupIzmeduLevela.setVisible(true);
-					popupIzmeduLevela.setEnabled(true);
 					repaint();
 				}
 			//}
@@ -315,15 +328,10 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
 			bodovi.setText(Krtica.bodovi.toString());
 		}
 		else if(e.getSource()==notOkZaBazu){
-			bazaBodova.setEnabled(false);
 			bazaBodova.setVisible(false);
 			Krtica.bodovi=0;
 			bodovi.setText(Krtica.bodovi.toString());
-			
-			
 			popupIzmeduLevela.setVisible(true);
-			popupIzmeduLevela.setEnabled(true);
-			
 			repaint();
 	
 		}
@@ -343,20 +351,11 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
 
 
 	@Override
-	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void mouseReleased(MouseEvent e) {}
 	@Override
-	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void mouseEntered(MouseEvent e) {}
 	@Override
-	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void mouseExited(MouseEvent e) {}
 
 
 
