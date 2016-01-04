@@ -9,13 +9,15 @@ import java.util.concurrent.ThreadLocalRandom;
 
 //TODO 
 //Promijenit pointer
-//validirat password, doradit formu (izgled)
+//validirat password
 //možda dodat još krtica na višim levelima
 //promijenit slike pozadine
 //dodat gamble na score na kraju
 //napravit da stranica na nešto liči...
-//riješit focus listenere, da ne budu anonimni (da se vrte na serveru)
+
 public class Mile extends JApplet implements ActionListener, MouseListener {
+	public Mile() {
+	}
     private static final long serialVersionUID = 1;
    
     Image backGround;
@@ -45,7 +47,7 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
     		"Kada zena od muza moze stvoriti milijunasa? Samo onda kada je muz milijarder.","Kako počinje i kako zavrsava zivot jednog motoriste? Pukne guma!"
     		};
     String s;
-    GridBagConstraints c = new GridBagConstraints();
+    GridBagConstraints c; 
     int krticaPoLevelu=3;
     @Override
     public void init() {
@@ -56,12 +58,12 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
     	Krtica.brojPojavljivanja=new Integer(1);
     	actionCounter=1;
     	Krtica.pogodakaOvajLevel=new Integer(0);//namjerno nije inicijalizirano u Krtici jer razmišljam o tome da usred igre možda dodam još jednu a ne želim da se vrijednosti izbrišu.   
-        setLayout(null);        	
+        getContentPane().setLayout(null);        	
         backGround = getImage(getCodeBase(), "../resources/slika.jpg");
         label = new JLabel(new ImageIcon(backGround));
         setContentPane(label);        
         mile = new Krtica(new ImageIcon(getImage(getCodeBase(), "../resources/mile.jpg").getScaledInstance( 100, 100,  java.awt.Image.SCALE_SMOOTH )) );
-        	add(mile);
+        	getContentPane().add(mile);
         	mile.addActionListener(this);
         	mile.addMouseListener(this);
         	mile.setSize(100, 100);
@@ -70,14 +72,14 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
 			mile.setVisible(false); 
         kliknuto = false;
         kolikoOdKoliko = new JTextField(actionCounter+" / "+krticaPoLevelu+"  ("+Krtica.pogodakaOvajLevel  +")   (level "+Krtica.level+" - "+delay+"s)");
-        	add(kolikoOdKoliko);
+        	getContentPane().add(kolikoOdKoliko);
         	kolikoOdKoliko.setHorizontalAlignment(JTextField.CENTER);
         	kolikoOdKoliko.setSize(getSize().width/3, 20);
         	kolikoOdKoliko.setLocation(getSize().width/2-kolikoOdKoliko.getSize().width/2, 5);        	
         	kolikoOdKoliko.setEditable(false);
         	kolikoOdKoliko.setBorder(null);
     	bodovi = new JTextField("Ukupni bodovi");
-    		add(bodovi);
+    		getContentPane().add(bodovi);
     		bodovi.setHorizontalAlignment(JTextField.CENTER);
     		bodovi.setSize(getSize().width/6, 20);
     		bodovi.setLocation(getSize().width/2-bodovi.getSize().width/2, 26);
@@ -96,7 +98,7 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
     		JLabel thumb = new JLabel();
     		thumb.setIcon(marina);
     		popupIzmeduLevela.add(thumb,BorderLayout.EAST);
-    		add(popupIzmeduLevela);
+    		getContentPane().add(popupIzmeduLevela);
 			popupIzmeduLevela.setSize(3*marina.getIconWidth()+2*sirinaSjene, marina.getIconHeight()+2*sirinaSjene);
 			popupIzmeduLevela.setLocation(getSize().width/2-popupIzmeduLevela.getSize().width/2, 222);
 		popupVic=new Sjena(sirinaSjene,0,0,254,-6,0,6);
@@ -114,7 +116,7 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
 			thumb2.setIcon(dzontra);
 			popupVic.add(thumb2,BorderLayout.EAST);
 			popupVic.setVisible(false);
-			add(popupVic);
+			getContentPane().add(popupVic);
 			popupVic.setSize(3*dzontra.getIconWidth()+2*sirinaSjene, dzontra.getIconHeight()+2*sirinaSjene);
 			popupVic.setLocation(getSize().width/2-popupVic.getSize().width/2, 222);
 		popupFail=new Sjena(sirinaSjene,0,6,254,-6,0,0);
@@ -132,35 +134,41 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
 			thumb22.setIcon(ipsix);
 			popupFail.add(thumb22,BorderLayout.EAST);
 			popupFail.setVisible(false);
-			add(popupFail);
+			getContentPane().add(popupFail);
 			popupFail.setSize(3*ipsix.getIconWidth()+2*sirinaSjene, ipsix.getIconHeight()+2*sirinaSjene);
 			popupFail.setLocation(getSize().width/2-popupFail.getSize().width/2, 222);
 		bazaBodova=new Sjena(sirinaSjene,254,-6,254,-6,0,8);
-			bazaBodova.setLayout(new GridBagLayout());
-			c.gridx = 0;c.gridy=0;c.fill = GridBagConstraints.HORIZONTAL;c.gridwidth = 3;
-			bazaBodova.add(new JLabel("Unesi bodove u bazu?",JLabel.CENTER),c);
+			JPanel ja=new JPanel();
+			ja.setBackground(new Color(201,245,221));
+			bazaBodova.add(ja);
+			ja.setLayout(new GridBagLayout());
+			c = new GridBagConstraints();c.fill=GridBagConstraints.BOTH;
+			c.gridx = 0;c.gridy=0;	c.gridwidth=2;c.insets=new Insets(10, 0, 10, 0);	
+			JLabel la=new JLabel("Unijeti bodove u bazu?",JLabel.CENTER);
+			ja.add(la,c);
 			userZaBazu=new JTextField("nick");//System.getProperty("user.name"));  //Ne može, ne da Java! -.- 
 			Slusac s=new Slusac(userZaBazu);
 			userZaBazu.addFocusListener(s);				
-			c.gridy=1;c.gridwidth = 2;c.fill = GridBagConstraints.HORIZONTAL;c.gridwidth = 2;
-			bazaBodova.add(userZaBazu,c);
+			c.gridx=0;c.gridy=1;c.gridwidth=2;c.insets=new Insets(0, 10, 10, 10);
+			ja.add(userZaBazu,c);
 			passZaBazu=new JTextField("password");
 			Slusac s2 =new Slusac(passZaBazu);
 			passZaBazu.addFocusListener(s2);
-			c.gridx = 1;c.gridy = 2;c.fill = GridBagConstraints.HORIZONTAL;c.insets = new Insets(3,0,0,0);c.gridwidth = 2;
-			bazaBodova.add(passZaBazu,c);
+			c.gridx=0;c.gridy = 2;c.gridwidth=2;
+			ja.add(passZaBazu,c);
 			okZaBazuBodova=new JButton("Unesi");
 			okZaBazuBodova.addMouseListener(this);
-			c.gridx=0;c.gridy = 4;c.fill = GridBagConstraints.HORIZONTAL;c.insets = new Insets(10,0,0,0);c.ipadx=10;c.gridwidth = 1;
-			bazaBodova.add(okZaBazuBodova,c);
+			c.gridx=0;c.gridy = 3;c.gridwidth=1;
+			ja.add(okZaBazuBodova,c);
 			notOkZaBazu=new JButton("Nemoj unijeti");
 			notOkZaBazu.addMouseListener(this);
-			c.gridx=3;c.gridy = 4;c.fill = GridBagConstraints.HORIZONTAL;c.gridwidth = 1;
-			bazaBodova.add(notOkZaBazu,c);	
-			//bazaBodova.setVisible(false);
+			c.gridx=1;c.gridy = 3;c.fill=GridBagConstraints.BOTH;c.gridwidth=1;
+			ja.add(notOkZaBazu,c);	
+			bazaBodova.setVisible(false);
 			add(bazaBodova);
 			bazaBodova.setSize(3*ipsix.getIconWidth()+2*sirinaSjene, ipsix.getIconHeight()+2*sirinaSjene);
-			bazaBodova.setLocation(getSize().width/2-(3*ipsix.getIconWidth()+2*sirinaSjene)/2, 22);
+			bazaBodova.setLocation(getSize().width/2-bazaBodova.getSize().width/2, 62);
+			bazaBodova.validate();
 			
 		delay=1000;
     	t=new Timer(delay,this );
@@ -284,7 +292,7 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
 			else{*/
 				try {
 					s=Db.upis(getCodeBase().toString(),userZaBazu.getText(),passZaBazu.getText(),Krtica.bodovi);
-					//textZaPopupIzmeduLevela.setText(s);
+					textZaPopupIzmeduLevela.setText("Spremljeno!\nIdemo ponovo!");
 					
 					
 				} catch (Exception ex) {
