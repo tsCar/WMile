@@ -190,7 +190,7 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
 			bazaBodova.validate();
 			
 		delay=1000;
-    	t=new Timer(delay,this );
+    	t=new Timer(delay,this );t.setRepeats(false);
    
     }
 
@@ -221,19 +221,14 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
 				delay=(int) ((delay>400) ? delay*0.95:400);
 				t.setInitialDelay(delay);
 				Krtica.level++;
-				try {
-					label.setIcon(backGround[Krtica.level%backGround.length]);
-				} catch (Exception e1) {
-					System.out.print(e1.toString());
-					e1.printStackTrace();
-				}
+				label.setIcon(backGround[Krtica.level%backGround.length]);
 				setContentPane(label);  //mijenja pozadinu appleta svaki level
-				popupIzmeduLevela.setVisible(true);
+				if (Krtica.pogodakaOvajLevel>=krticaPoLevelu/2){popupIzmeduLevela.setVisible(true);///TU JE GREŠKA! fail-timer za popupIzmeduLevela se zavrti prije nego se provjeri dal je fail. Hack na brzinu:dodao sam if, da vidim dal radi. TODO napravit pravi refactoring, kad budem odmoran, sad bi sjebao nešto 100%
 				popupIzmeduLevela.setEnabled(false);
 				Tibor t2=new Tibor(popupIzmeduLevela);//isto kao i za popupFail
 				Timer cekajIzmedu = new Timer(750, t2);
 				cekajIzmedu.setRepeats(false);
-				cekajIzmedu.start();
+				cekajIzmedu.start();}
 			
 				if(Krtica.level==1) {//nakon tutoriala
 					switch (Krtica.pogodakaOvajLevel){
@@ -282,7 +277,7 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
 					popupVic.setVisible(true);repaint();
 					popupVic.setEnabled(false);
 					Tibor t4=new Tibor(popupVic);//isto kao i za popupFail
-					Timer cekajVic = new Timer(2750, t4);
+					Timer cekajVic = new Timer(750, t4);
 					cekajVic.setRepeats(false);
 					cekajVic.start();					
 				}
