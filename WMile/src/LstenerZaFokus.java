@@ -6,9 +6,9 @@ import javax.swing.JTextField;
 
 
 
-public class Slusac implements FocusListener{
+public class LstenerZaFokus implements FocusListener{
 	JTextField textField;
-	Slusac(JTextField textField) {
+	LstenerZaFokus(JTextField textField) {
 		super();
 		this.textField=textField;
 	}

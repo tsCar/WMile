@@ -4,9 +4,9 @@ import java.awt.event.ActionListener;
 
 
 
-public class Tibor implements ActionListener{
+public class ListenerZaSjenu implements ActionListener{
 Sjena sjena;
-	Tibor(Sjena sjena){
+	ListenerZaSjenu(Sjena sjena){
 		super();
 		this.sjena=sjena;
 	}
