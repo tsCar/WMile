@@ -11,12 +11,14 @@ import java.util.concurrent.ThreadLocalRandom;
 
 
 //TODO 
-//POPRAVIT CRASHANJE NA VIŠIM LEVELIMA
-//napravit bolju sliku mileta/mile2 (kad se pogodi)
-//validirat password
-//možda dodat još krtica na višim levelima
-//dodat gamble na score na kraju
+
 //napravit da stranica na nešto liči...
+//napravit bolju sliku mileta/mile2 (kad se pogodi) i nać ljepšepozadine
+
+//možda:
+//validirat password
+//dodat gamble na score na kraju
+
 
 public class Mile extends JApplet implements ActionListener, MouseListener {
 	public Mile() {
@@ -79,7 +81,7 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
     	krticaPoLevelu=3;
     	kliknutihSanja=0;
     	getContentPane().setLayout(null); //da mogu Mileta stavljat gdje hoću       	
-        //backGround = getImage(getCodeBase(), "../resources/slika.jpg");
+    	this.addMouseListener(this);//izgleda ko da ne može bit točno. Nadam se da to dodaje ML na cijeli applet 
         label = new JLabel(backGround[0]);
         setContentPane(label); 
         mileico=new ImageIcon(getImage(getCodeBase(), "../resources/mile.jpg").getScaledInstance( 100, 100,  java.awt.Image.SCALE_SMOOTH ));
@@ -199,7 +201,7 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
 			bazaBodova.setLocation(getSize().width/2-bazaBodova.getSize().width/2, 62);
 			bazaBodova.validate();
 			
-		delay=1000;
+		delay=2000;
     	t=new Timer(delay,this );t.setRepeats(false);
     	tsanja=new Timer(3500,new ListenerZaSanju(sanja,getSize().width-sanja.getSize().width,getSize().height-sanja.getSize().height,sanjaico));
     }
@@ -214,7 +216,8 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
    
     
 	@Override
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(ActionEvent e) {System.out.print(actionCounter+"  "+Boolean.toString(t.isRunning())+".\n");
+		
 		actionCounter++;
 		t.setInitialDelay(delay);
 		if(actionCounter==krticaPoLevelu+1){//kad je gotov level
@@ -251,6 +254,7 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
 				if (Krtica.pogodakaOvajLevel<krticaPoLevelu/2){
 				 	Krtica.brojPogodaka=0;
 			    	Krtica.brojPojavljivanja=0;
+			    	krticaPoLevelu=10;
 			    	delay=1000;
 			    	t.setInitialDelay(delay);
 					textZaPopupFail.setText("Joj, joj, joj, "+Krtica.pogodakaOvajLevel.toString()+"/"+krticaPoLevelu+"\nTrebalo je to bolje...\nZnate, kolega, ovo Vam ne može iti za prolaz.");
@@ -263,8 +267,7 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
 					repaint();
 				}
 				else{
-					int mam;
-					if(Krtica.level<5)textZaPopupIzmeduLevela.setText("Dakle, \n"+Krtica.pogodakaOvajLevel+" pogodaka x "+(Krtica.level-1)+ " = "+Krtica.pogodakaOvajLevel*(Krtica.level-1)+"\nUkupno:"+Krtica.brojPogodaka+"/"+Krtica.brojPojavljivanja+" ->"+(int)((double)Krtica.brojPogodaka/Krtica.brojPojavljivanja*100)+"%\nBodova:"+Krtica.bodovi);
+					if(Krtica.level<=5)textZaPopupIzmeduLevela.setText("Dakle, \n"+Krtica.pogodakaOvajLevel+" pogodaka x "+(Krtica.level-1)+ " = "+Krtica.pogodakaOvajLevel*(Krtica.level-1)+"\nUkupno:"+Krtica.brojPogodaka+"/"+Krtica.brojPojavljivanja+" ->"+(int)((double)Krtica.brojPogodaka/Krtica.brojPojavljivanja*100)+"%\nBodova:"+Krtica.bodovi);
 					else textZaPopupIzmeduLevela.setText("Dakle, \n"+Krtica.pogodakaOvajLevel+" pogodaka x "+(Krtica.level-1)+ " - "+kliknutihSanja+" x Sanja = "+(Krtica.pogodakaOvajLevel*(Krtica.level-1)-(3*kliknutihSanja*(Krtica.level-1)))+"\nUkupno:"+Krtica.brojPogodaka+"/"+Krtica.brojPojavljivanja+" ->"+(int)((double)Krtica.brojPogodaka/Krtica.brojPojavljivanja*100)+"%\nBodova:"+Krtica.bodovi);
 					popupIzmeduLevela.setVisible(true);
 					popupIzmeduLevela.setEnabled(false);
@@ -283,6 +286,7 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
 			Krtica.brojPojavljivanja ++;
 			kolikoOdKoliko.setText(actionCounter+" / "+krticaPoLevelu+"  ("+Krtica.pogodakaOvajLevel  +")   (level "+Krtica.level+" - "+delay+"ms)");
 			mile.setLocation(ThreadLocalRandom.current().nextInt(0, getSize().width-mile.getSize().width),ThreadLocalRandom.current().nextInt(0, getSize().height-mile.getSize().height));//Znači, x na random od nula do (širina appleta-širina mileta), analogno za y
+			mile.setIcon(mileico);
 			mile.setVisible(true);
 			repaint();
 			t.restart();
@@ -380,10 +384,12 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
 			Krtica.bodovi+=Krtica.level;
 			Krtica.pogodakaOvajLevel ++;
 			kolikoOdKoliko.setText(actionCounter+" / "+krticaPoLevelu+"  ("+Krtica.pogodakaOvajLevel  +")   (level "+Krtica.level+" - "+delay+"ms)");
-			t.stop();//možda je tu bio bug. 
+			t.stop();
+			repaint();
 		}
 		if(e.getSource()==sanja){
 			Krtica.bodovi= (Krtica.bodovi>=3*Krtica.level)? Krtica.bodovi-3*Krtica.level:0;
+			bodovi.setText(Krtica.bodovi.toString());
 			kliknutihSanja++;
 			sanja.setIcon(null);
 			sanja.setBackground(Color.red);
@@ -393,7 +399,8 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		mile.setIcon(mileico);
+		
+		if(!t.isRunning()&&actionCounter>0){t.setInitialDelay(0);t.restart();}
 	}
 	@Override
 	public void mouseEntered(MouseEvent e) {
