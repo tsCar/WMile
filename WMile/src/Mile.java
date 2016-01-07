@@ -12,9 +12,9 @@ import java.util.concurrent.ThreadLocalRandom;
 
 //TODO 
 
-//bug sa 6 pogodaka
+
 //napravit da stranica na nešto liči...
-//napravit bolju sliku mileta/mile2 (kad se pogodi) i nać ljepšepozadine
+
 
 //možda:
 //validirat password
@@ -309,7 +309,7 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
 	public void mouseClicked(MouseEvent e) {
 		if (e.getSource()==popupIzmeduLevela || e.getSource()==textZaPopupIzmeduLevela ){
 			if(popupIzmeduLevela.isEnabled()){
-				popupIzmeduLevela.setVisible(false);
+				popupIzmeduLevela.setVisible(false);repaint();
 				if(Krtica.level>1){
 					popupVic.setVisible(true);
 					popupVic.setEnabled(false);
