@@ -250,7 +250,7 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
 				case 2: textZaPopupIzmeduLevela.setText("Ma, kolega, pogodili ste 2/3 ali nije to bilo dobro.<br>Ovog prvog niste potpuno, ovog drugog niste objasnili kako ste pogodili... <br>Ništa, <b>0 bodova</b>");break;
 				case 3: textZaPopupIzmeduLevela.setText("Ma kolega, jeste Vi pogodili sva tri ali prvoga niste dovoljno precizno, drugog niste baš kako treba a ovog trećeg ste dobro ali ne onako kako sam ja zamislila. <br>To će Vam bit <b>0 bodova</b> ");break;
 				}
-				//krticaPoLevelu=10;
+				krticaPoLevelu=10;
 				popupIzmeduLevela.setVisible(true);
 				popupIzmeduLevela.setEnabled(false);
 				ListenerZaSjenu t2=new ListenerZaSjenu(popupIzmeduLevela);//isto kao i za popupFail
