@@ -12,7 +12,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 //TODO 
 
-
+//riješit Sanju između levela 
 //napravit da stranica na nešto liči...
 
 
@@ -235,13 +235,14 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
 			kolikoOdKoliko.setText("Level "+Krtica.level);
 			actionCounter=0;
 			mile.setVisible(false);//sakrije  zadnjeg Mileta koji je bio nacrtan
-			if(tsanja.isRunning())tsanja.stop();
-			if(sanja.isVisible())sanja.setVisible(false);
+			if(tsanja.isRunning())tsanja.stop(); //TODO ovo ne radi  Aha, jer radi timer u listeneru, njega treba ugasi.
+			if(sanja.isVisible())sanja.setVisible(false); 
 			delay=(int) ((delay>400) ? delay*0.95:400);
 			t.setInitialDelay(delay);
 			Krtica.level++;
 			label.setIcon(backGround[Krtica.level%backGround.length]);
-			setContentPane(label);  //mijenja pozadinu appleta svaki level			
+			setContentPane(label);  //mijenja pozadinu appleta svaki level		izgleda do ovo dodaje pozadinu i na popupove. 	
+			//ne kužim kako. I zašto doda i bodove i sve. Riješio sam bug tako da sam stavio da sjena bude prozirna ali to je više maskiranje nego rješenje... :/
 			if(Krtica.level==1) {//nakon tutoriala
 				switch (Krtica.pogodakaOvajLevel){
 				case 0:	textZaPopupIzmeduLevela.setText("Realno, nije bilo teško, trebali ste bar jednog pogodit'...<br><b>0 bodova</b>");break;
