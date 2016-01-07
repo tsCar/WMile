@@ -30,7 +30,7 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
     Krtica mile,sanja;
     JTextField kolikoOdKoliko,bodovi,userZaBazu,passZaBazu;
     JLabel label;
-    Timer t,tsanja;
+    Timer t,tsanja,cekajIzmedu,cekajFail,cekajVic;
     int delay,sirinaSjene=30,actionCounter,krticaPoLevelu,kliknutihSanja; //oprezno sa sirinom sjene, množi se s konstantom u klasi Sjena a ne smije preć 254
     Sjena popupIzmeduLevela,popupVic,popupFail,bazaBodova;
     JButton okZaBazuBodova,notOkZaBazu;
@@ -55,6 +55,8 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
     String s;
     GridBagConstraints c; 
     ListenerZaSanju listenerZaSanju;
+    ListenerZaSjenu t2,t3,t4;
+
     
     @Override
     public void init() {
@@ -215,7 +217,11 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
 			bazaBodova.setSize(3*ipsix.getIconWidth()+2*sirinaSjene, ipsix.getIconHeight()+2*sirinaSjene);
 			bazaBodova.setLocation(getSize().width/2-bazaBodova.getSize().width/2, 62);
 			bazaBodova.validate();
-			
+		t2=new ListenerZaSjenu(popupIzmeduLevela);//isto kao i za popupFail	
+		cekajIzmedu = new Timer(750, t2);
+	    t3=new ListenerZaSjenu(popupFail); 
+		t4=new ListenerZaSjenu(popupVic);//isto kao i za popupFail
+		cekajVic = new Timer(750, t4);
 		delay=1000;
     	t=new Timer(delay,this );t.setRepeats(false);
     	listenerZaSanju=new ListenerZaSanju(sanja,getSize().width-sanja.getSize().width,getSize().height-sanja.getSize().height,sanjaico);
@@ -276,8 +282,6 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
 					krticaPoLevelu=10;
 					popupFail.setVisible(true);
 					popupFail.setEnabled(false);//timer ga vrati nakon 0.75s, da se ne može slučajno stisnut u igri
-					ListenerZaSjenu t3=new ListenerZaSjenu(popupFail); 
-					Timer cekajFail = new Timer(750, t3); //kad stavim u konstruktor od timera new event listener onda se na kompu vrti ali na serveru ne, java security mu ne da
 					cekajFail.setRepeats(false);
 					cekajFail.start();
 				}
@@ -286,8 +290,6 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
 					else textZaPopupIzmeduLevela.setText("Bodovi za Level "+(Krtica.level-1)+":<br> "+Krtica.pogodakaOvajLevel+" pogodaka x "+(Krtica.level-1)+ " - "+kliknutihSanja+" x Sanja = <b>"+(Krtica.pogodakaOvajLevel*(Krtica.level-1)-3*kliknutihSanja*(Krtica.level-1))+"</b><br>Ukupno pogodaka:"+Krtica.brojPogodaka+"/"+Krtica.brojPojavljivanja+"     "+(int)((double)Krtica.brojPogodaka/Krtica.brojPojavljivanja*100)+"%"+"<hr><p style= text-align: center;><b>Ukupno bodova:<br>"+Krtica.bodovi+"</b></p><br><hr>");
 					popupIzmeduLevela.setVisible(true);
 					popupIzmeduLevela.setEnabled(false);
-					ListenerZaSjenu t2=new ListenerZaSjenu(popupIzmeduLevela);//isto kao i za popupFail
-					Timer cekajIzmedu = new Timer(750, t2);
 					cekajIzmedu.setRepeats(false);
 					cekajIzmedu.start();
 				}
@@ -319,8 +321,6 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
 				if(Krtica.level>1){
 					popupVic.setVisible(true);
 					popupVic.setEnabled(false);
-					ListenerZaSjenu t4=new ListenerZaSjenu(popupVic);//isto kao i za popupFail
-					Timer cekajVic = new Timer(750, t4);
 					cekajVic.setRepeats(false);
 					cekajVic.start();					
 				}

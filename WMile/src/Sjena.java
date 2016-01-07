@@ -27,7 +27,7 @@ public class Sjena extends JPanel {
         Border border = BorderFactory.createEmptyBorder(pixels, pixels, pixels, pixels);
         this.setBorder(BorderFactory.createCompoundBorder(this.getBorder(), border));
         this.setLayout(new BorderLayout());
-        setOpaque(false);
+        setOpaque(false); //ovo skriva onaj čudni bug
     }
 
     @Override
