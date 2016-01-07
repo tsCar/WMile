@@ -311,7 +311,7 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
 			if(popupIzmeduLevela.isEnabled()){
 				popupIzmeduLevela.setVisible(false);
 				if(Krtica.level>1){
-					popupVic.setVisible(true);repaint();
+					popupVic.setVisible(true);
 					popupVic.setEnabled(false);
 					ListenerZaSjenu t4=new ListenerZaSjenu(popupVic);//isto kao i za popupFail
 					Timer cekajVic = new Timer(750, t4);
@@ -330,7 +330,6 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
 		else if (e.getSource()==popupVic || e.getSource()==textZaPopupVic){
 			if(popupVic.isEnabled()){
 				popupVic.setVisible(false);
-				//mile.setVisible(true);
 				kolikoOdKoliko.setText(actionCounter+" / "+krticaPoLevelu+"  ("+Krtica.pogodakaOvajLevel  +")   (level "+Krtica.level+" - "+delay+"ms)");
 				t.setInitialDelay(250);
 				t.restart();
@@ -393,8 +392,8 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
 			Krtica.bodovi+=Krtica.level;
 			Krtica.pogodakaOvajLevel ++;
 			kolikoOdKoliko.setText(actionCounter+" / "+krticaPoLevelu+"  ("+Krtica.pogodakaOvajLevel  +")   (level "+Krtica.level+" - "+delay+"ms)");
-			t.stop();
 			repaint();
+			t.stop();
 		}
 		if(e.getSource()==sanja){
 			Krtica.bodovi= (Krtica.bodovi>=3*Krtica.level)? Krtica.bodovi-3*Krtica.level:0;
