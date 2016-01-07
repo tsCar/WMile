@@ -12,11 +12,13 @@ public class ListenerZaSanju implements ActionListener{
 Krtica krtica;
 int a,b;
 ImageIcon ic;
+public Timer t;
 	ListenerZaSanju(Krtica krtica, int a, int b,ImageIcon ic){
 		super();
 		this.krtica=krtica;
 		this.a=a;this.b=b;
 		this.ic=ic;
+		t=new Timer(1750,this);
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -27,7 +29,6 @@ ImageIcon ic;
 		else {
 			krtica.setIcon(ic);
 			krtica.setVisible(true);
-			Timer t=new Timer(1750,this);
 			t.setRepeats(false);
 			t.start();
 		}
