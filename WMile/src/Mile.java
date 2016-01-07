@@ -234,7 +234,6 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
 			if(Krtica.level>=5)	krticaPoLevelu++;
 			kolikoOdKoliko.setText("Level "+Krtica.level);
 			actionCounter=0;
-			//ne treba mi više jer je t.repeat false t.stop();//zaustavi timer, da se ne pojavljuje Mile dok je aktivan popup
 			mile.setVisible(false);//sakrije  zadnjeg Mileta koji je bio nacrtan
 			if(tsanja.isRunning())tsanja.stop();
 			if(sanja.isVisible())sanja.setVisible(false);
@@ -272,7 +271,6 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
 					Timer cekajFail = new Timer(750, t3); //kad stavim u konstruktor od timera new event listener onda se na kompu vrti ali na serveru ne, java security mu ne da
 					cekajFail.setRepeats(false);
 					cekajFail.start();
-					repaint();
 				}
 				else{
 					if(Krtica.level<=5)textZaPopupIzmeduLevela.setText("Bodovi za Level "+(Krtica.level-1)+":<br> "+Krtica.pogodakaOvajLevel+" pogodaka x "+(Krtica.level-1)+ " = <b>"+Krtica.pogodakaOvajLevel*(Krtica.level-1)+"</b><br>Ukupno pogodaka:"+Krtica.brojPogodaka+"/"+Krtica.brojPojavljivanja+"     "+(int)((double)Krtica.brojPogodaka/Krtica.brojPojavljivanja*100)+"%"+"<hr><p style= text-align: center;><b>Ukupno bodova:<br>"+Krtica.bodovi+"</b></p><br><hr>");
@@ -285,7 +283,7 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
 					ListenerZaSjenu t2=new ListenerZaSjenu(popupIzmeduLevela);//isto kao i za popupFail
 					Timer cekajIzmedu = new Timer(750, t2);
 					cekajIzmedu.setRepeats(false);
-					cekajIzmedu.start();repaint();
+					cekajIzmedu.start();
 				}
 			}
 			kliknutihSanja=0;
