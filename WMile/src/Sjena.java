@@ -34,7 +34,8 @@ public class Sjena extends JPanel {
     protected void paintComponent(Graphics g) {
         int topOpacity = 180;
         for (int i = 0; i < pixels; i++) {
-            g.setColor(new Color(crvena+modCrvena*i, zelena+modZelena*i, plava+modPlava*i, ((topOpacity / pixels) * i)));
+            if(!isEnabled()) g.setColor(new Color(crvena+modCrvena*i/3, zelena+modZelena*i/3, plava+modPlava*i/3, ((topOpacity / pixels) * i)));
+            else g.setColor(new Color(crvena+modCrvena*i, zelena+modZelena*i, plava+modPlava*i, ((topOpacity / pixels) * i)));
             g.drawRect(i, i, this.getWidth() - ((i * 2) + 1), this.getHeight() - ((i * 2) + 1));
         }
     }

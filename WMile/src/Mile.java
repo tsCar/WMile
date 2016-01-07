@@ -219,7 +219,8 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
 			bazaBodova.validate();
 		t2=new ListenerZaSjenu(popupIzmeduLevela);//isto kao i za popupFail	
 		cekajIzmedu = new Timer(750, t2);
-	    t3=new ListenerZaSjenu(popupFail); 
+	    t3=new ListenerZaSjenu(popupFail);
+	    cekajFail=new Timer(750, t3);
 		t4=new ListenerZaSjenu(popupVic);//isto kao i za popupFail
 		cekajVic = new Timer(750, t4);
 		delay=1000;
