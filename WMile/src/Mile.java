@@ -31,11 +31,11 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
     JTextField kolikoOdKoliko,bodovi,userZaBazu,passZaBazu;
     JLabel label;
     Timer t,tsanja;
-    int delay,sirinaSjene=30,actionCounter,krticaPoLevelu,kliknutihSanja,bl; //oprezno sa sirinom sjene, množi se s konstantom u klasi Sjena a ne smije preć 254
+    int delay,sirinaSjene=30,actionCounter,krticaPoLevelu,kliknutihSanja; //oprezno sa sirinom sjene, množi se s konstantom u klasi Sjena a ne smije preć 254
     Sjena popupIzmeduLevela,popupVic,popupFail,bazaBodova;
     JButton okZaBazuBodova,notOkZaBazu;
     JScrollPane scrollVic,scrollLevel;
-    ImageIcon marina,dzontra,ipsix,mileico,mile2ico,sanjaico;
+    ImageIcon marina,dzontra,ipsix,mileico,mile2ico,sanjaico,sanja2ico;
     JEditorPane textZaPopupIzmeduLevela,textZaPopupVic,textZaPopupFail;
     String[] vicevi={ "Pita tata \"Sine, zašto želiš postati nogometni sudac?\n-Zato jer mi se fućka za nogomet!","Dodje Bruce Willis u trgovinu informaticke opreme i kaze:daj hard",
     		"Sastanu se Kinez i Slovenac na poslovnom ručku i pita Kinez 'Koliko vas ima?'\n'Oko 2 milijuna' odvrati Slovenac.'U kojem hotelu ste odsjeli?'" ,
@@ -101,8 +101,12 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
         	mile.setBorderPainted(false);
 			mile.setVisible(false); 
 		sanjaico=new ImageIcon(getImage(getCodeBase(), "../resources/sanja.jpg").getScaledInstance( 100, 100,  java.awt.Image.SCALE_SMOOTH ));
+		sanja2ico=new ImageIcon(getImage(getCodeBase(), "../resources/sanja2.png").getScaledInstance( 100, 100,  java.awt.Image.SCALE_SMOOTH ));
 		sanja = new Krtica(sanjaico );
         	add(sanja);
+        	sanja.setOpaque(false);
+        	sanja.setContentAreaFilled(false);
+        	sanja.setBorderPainted(false);
         	sanja.addMouseListener(this);
         	sanja.setSize(100, 100);
         	sanja.setLocation(ThreadLocalRandom.current().nextInt(0, getSize().width-sanja.getSize().width),ThreadLocalRandom.current().nextInt(0, getSize().height-sanja.getSize().height));
@@ -279,10 +283,7 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
 				}
 				else{
 					if(Krtica.level<=5)textZaPopupIzmeduLevela.setText("Bodovi za Level "+(Krtica.level-1)+":<br> "+Krtica.pogodakaOvajLevel+" pogodaka x "+(Krtica.level-1)+ " = <b>"+Krtica.pogodakaOvajLevel*(Krtica.level-1)+"</b><br>Ukupno pogodaka:"+Krtica.brojPogodaka+"/"+Krtica.brojPojavljivanja+"     "+(int)((double)Krtica.brojPogodaka/Krtica.brojPojavljivanja*100)+"%"+"<hr><p style= text-align: center;><b>Ukupno bodova:<br>"+Krtica.bodovi+"</b></p><br><hr>");
-					else {
-						bl=(Krtica.pogodakaOvajLevel*(Krtica.level-1)-3*kliknutihSanja*(Krtica.level-1)>0)?(Krtica.pogodakaOvajLevel*(Krtica.level-1)-3*kliknutihSanja*(Krtica.level-1)):0;
-						textZaPopupIzmeduLevela.setText("Bodovi za Level "+(Krtica.level-1)+":<br> "+Krtica.pogodakaOvajLevel+" pogodaka x "+(Krtica.level-1)+ " - "+kliknutihSanja+" x Sanja = <b>"+bl+"</b><br>Ukupno pogodaka:"+Krtica.brojPogodaka+"/"+Krtica.brojPojavljivanja+"     "+(int)((double)Krtica.brojPogodaka/Krtica.brojPojavljivanja*100)+"%"+"<hr><p style= text-align: center;><b>Ukupno bodova:<br>"+Krtica.bodovi+"</b></p><br><hr>");
-					}
+					else textZaPopupIzmeduLevela.setText("Bodovi za Level "+(Krtica.level-1)+":<br> "+Krtica.pogodakaOvajLevel+" pogodaka x "+(Krtica.level-1)+ " - "+kliknutihSanja+" x Sanja = <b>"+(Krtica.pogodakaOvajLevel*(Krtica.level-1)-3*kliknutihSanja*(Krtica.level-1))+"</b><br>Ukupno pogodaka:"+Krtica.brojPogodaka+"/"+Krtica.brojPojavljivanja+"     "+(int)((double)Krtica.brojPogodaka/Krtica.brojPojavljivanja*100)+"%"+"<hr><p style= text-align: center;><b>Ukupno bodova:<br>"+Krtica.bodovi+"</b></p><br><hr>");
 					popupIzmeduLevela.setVisible(true);
 					popupIzmeduLevela.setEnabled(false);
 					ListenerZaSjenu t2=new ListenerZaSjenu(popupIzmeduLevela);//isto kao i za popupFail
@@ -404,8 +405,8 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
 			Krtica.bodovi= (Krtica.bodovi>=3*Krtica.level)? Krtica.bodovi-3*Krtica.level:0;
 			bodovi.setText(Krtica.bodovi.toString());
 			kliknutihSanja++;
-			sanja.setIcon(null);
-			sanja.setBackground(Color.red);
+			sanja.setIcon(sanja2ico);
+			//sanja.setBackground(Color.red);
 		}
 	}
 
