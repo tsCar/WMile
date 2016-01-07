@@ -12,12 +12,12 @@ import java.util.concurrent.ThreadLocalRandom;
 
 //TODO 
 
-//riješit Sanju između levela 
+
 //napravit da stranica na nešto liči...
 
 
 //možda:
-//validirat password
+//validirat password, dodat text.setechochar("*")
 //dodat gamble na score na kraju
 
 
@@ -54,6 +54,7 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
     		};
     String s;
     GridBagConstraints c; 
+    ListenerZaSanju listenerZaSanju;
     
     @Override
     public void init() {
@@ -213,7 +214,8 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
 			
 		delay=1000;
     	t=new Timer(delay,this );t.setRepeats(false);
-    	tsanja=new Timer(3500,new ListenerZaSanju(sanja,getSize().width-sanja.getSize().width,getSize().height-sanja.getSize().height,sanjaico));
+    	listenerZaSanju=new ListenerZaSanju(sanja,getSize().width-sanja.getSize().width,getSize().height-sanja.getSize().height,sanjaico);
+    	tsanja=new Timer(3500,listenerZaSanju);
     }
 
     @Override
@@ -236,7 +238,9 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
 			actionCounter=0;
 			mile.setVisible(false);//sakrije  zadnjeg Mileta koji je bio nacrtan
 			if(tsanja.isRunning())tsanja.stop(); //TODO ovo ne radi  Aha, jer radi timer u listeneru, njega treba ugasi.
-			if(sanja.isVisible())sanja.setVisible(false); 
+			if(sanja.isVisible())sanja.setVisible(false);
+			if(listenerZaSanju.t.isRunning())listenerZaSanju.t.stop(); //Ovo je ružno, ovako na silu u tuđu klasu ali ne da mi se smišljat ljepše.
+			
 			delay=(int) ((delay>400) ? delay*0.95:400);
 			t.setInitialDelay(delay);
 			Krtica.level++;
@@ -259,12 +263,12 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
 				cekajIzmedu.start();
 			}
 			else{
-				if (Krtica.pogodakaOvajLevel<krticaPoLevelu/2){
+				if (Krtica.pogodakaOvajLevel<(krticaPoLevelu-1)/2){
 				 	Krtica.brojPogodaka=0;
 			    	Krtica.brojPojavljivanja=0;
 			    	delay=1000;
 			    	t.setInitialDelay(delay);
-					textZaPopupFail.setText("\n\nJoj, joj, joj, "+Krtica.pogodakaOvajLevel.toString()+" od "+krticaPoLevelu+"\nTrebalo je to bolje...\nZnate, kolega, ovo Vam ne može iti za prolaz.");
+					textZaPopupFail.setText("\n\nJoj, joj, joj, "+Krtica.pogodakaOvajLevel.toString()+" od "+(krticaPoLevelu-1)+"\nTrebalo je to bolje...\nZnate, kolega, ovo Vam ne može iti za prolaz.");
 					krticaPoLevelu=10;
 					popupFail.setVisible(true);
 					popupFail.setEnabled(false);//timer ga vrati nakon 0.75s, da se ne može slučajno stisnut u igri
