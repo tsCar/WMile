@@ -9,7 +9,7 @@ import java.net.URL;
 public class Db{
 	
 	
- public static String upis(String link, String user, String pass, Integer bodovi) throws Exception{
+ public static String upis(String link, String user, String pass, int bodovi) throws Exception{
 
     URL                 url=null;
     HttpURLConnection   urlConn=null;
@@ -24,7 +24,7 @@ public class Db{
     urlConn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
     
     printout = new DataOutputStream (urlConn.getOutputStream ());
-    printout.writeBytes ("user=\""+user+"\"&pass=\""+pass+"\"&bodovi=\""+bodovi+"\"");
+    printout.writeBytes ("user="+user+"&pass="+pass+"&bodovi="+bodovi);
   
     printout.flush ();
     printout.close ();

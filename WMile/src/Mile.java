@@ -31,7 +31,7 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
     JTextField kolikoOdKoliko,bodovi,userZaBazu,passZaBazu;
     JLabel label;
     Timer t,tsanja,cekajIzmedu,cekajFail,cekajVic;
-    int delay,sirinaSjene=30,actionCounter,krticaPoLevelu,kliknutihSanja; //oprezno sa sirinom sjene, množi se s konstantom u klasi Sjena a ne smije preć 254
+    int delay,sirinaSjene=30,actionCounter,krticaPoLevelu,kliknutihSanja,zaIvu; //oprezno sa sirinom sjene, množi se s konstantom u klasi Sjena a ne smije preć 254
     Sjena popupIzmeduLevela,popupVic,popupFail,bazaBodova;
     JButton okZaBazuBodova,notOkZaBazu;
     JScrollPane scrollVic,scrollLevel;
@@ -274,12 +274,13 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
 				cekajIzmedu.start();
 			}
 			else{
-				if (Krtica.pogodakaOvajLevel<(krticaPoLevelu-1)/2){
+				zaIvu=(krticaPoLevelu>10)? (krticaPoLevelu-1):10; //jer se nakon 10 levela počnu povećavat a poveća se prije nego se Ivo pojavi
+				if (Krtica.pogodakaOvajLevel<zaIvu/2){
 				 	Krtica.brojPogodaka=0;
 			    	Krtica.brojPojavljivanja=0;
 			    	delay=1000;
 			    	t.setInitialDelay(delay);
-					textZaPopupFail.setText("\n\nJoj, joj, joj, "+Krtica.pogodakaOvajLevel.toString()+" od "+(krticaPoLevelu-1)+"\nTrebalo je to bolje...\nZnate, kolega, ovo Vam ne može iti za prolaz.");
+					textZaPopupFail.setText("\n\nJoj, joj, joj, "+Krtica.pogodakaOvajLevel.toString()+" od "+zaIvu+"\nTrebalo je to bolje...\nZnate, kolega, ovo Vam ne može iti za prolaz.");
 					krticaPoLevelu=10;
 					popupFail.setVisible(true);
 					popupFail.setEnabled(false);//timer ga vrati nakon 0.75s, da se ne može slučajno stisnut u igri
@@ -360,7 +361,7 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
 			}
 			else{*/
 				try {
-					s=Db.upis(getCodeBase().toString(),userZaBazu.getText(),passZaBazu.getText(),Krtica.bodovi);
+					s=Db.upis(getCodeBase().toString(),userZaBazu.getText(),passZaBazu.getText(),Krtica.bodovi.intValue());
 					textZaPopupIzmeduLevela.setText("Spremljeno!\nIdemo ponovo!");
 					
 					
@@ -407,7 +408,6 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
 			bodovi.setText(Krtica.bodovi.toString());
 			kliknutihSanja++;
 			sanja.setIcon(sanja2ico);
-			//sanja.setBackground(Color.red);
 		}
 	}
 
