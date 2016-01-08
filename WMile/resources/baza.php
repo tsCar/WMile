@@ -1,5 +1,5 @@
 <?php
-echo"<html><body><p>dfkjhgskjdf</p></body></html>";
+
 $servername = "sql205.byethost3.com";
 $username = "b3_17082020";
 $password = "glupipass";
@@ -27,7 +27,7 @@ $b=$_POST['bodovi'];
   }
 else {
     echo("nemamo b!");
-$b=8;
+$b=888888;
 }
 
 
@@ -38,15 +38,19 @@ try {
     // set the PDO error mode to exception
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     echo "Connected successfully";
- $sql = "INSERT INTO rezultat (user ,pass ,score)VALUES ($u,$p,$b )";
 
-    $conn->exec($sql);
+$stmt = $conn->prepare("INSERT INTO rezultat (user ,pass ,score)    VALUES (:user, :pass, :score)");
+    $stmt->bindParam(':user', $u);
+    $stmt->bindParam(':pass', $p);
+    $stmt->bindParam(':score', $b);
+
+    $stmt->execute();
+
+    echo "New records created successfully";
     }
-
 catch(PDOException $e)
     {
-    echo "Connection failed: " . $e->getMessage();
+    echo "Error: " . $e->getMessage();
     }
 $conn = null;
 ?> 
-
