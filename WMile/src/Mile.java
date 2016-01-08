@@ -348,7 +348,6 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
 			if(popupFail.isEnabled()){
 				popupFail.setVisible(false);
 				textZaPopupIzmeduLevela.setText("Znači, idemo ponovo:");
-				Krtica.level=1;
 				krticaPoLevelu=10;
 				kliknutihSanja=0;
 				bazaBodova.setVisible(true);
@@ -361,7 +360,7 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
 			}
 			else{*/
 				try {
-					s=Db.upis(getCodeBase().toString(),userZaBazu.getText(),passZaBazu.getText(),Krtica.bodovi.intValue());
+					s=Db.upis(getCodeBase().toString(),userZaBazu.getText(),passZaBazu.getText(),Krtica.bodovi.intValue(),Krtica.level-1);
 					textZaPopupIzmeduLevela.setText("Spremljeno!\nIdemo ponovo!");
 					
 					
@@ -374,13 +373,20 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
 					repaint();
 				}
 			//}
+			label.setIcon(backGround[1]);
+			setContentPane(label); 
+			Krtica.level=1;
 			Krtica.bodovi=0;
 			bodovi.setText(Krtica.bodovi.toString());
 			kolikoOdKoliko.setText(actionCounter+" / "+krticaPoLevelu+"  ("+Krtica.pogodakaOvajLevel  +")   (level "+Krtica.level+" - "+delay+"ms)");
 		}
 		else if(e.getSource()==notOkZaBazu){
 			bazaBodova.setVisible(false);
+			textZaPopupIzmeduLevela.setText("Idemo ponovo!");
 			Krtica.bodovi=0;
+			Krtica.level=1;
+			label.setIcon(backGround[1]);
+			setContentPane(label); 
 			bodovi.setText(Krtica.bodovi.toString());
 			kolikoOdKoliko.setText(actionCounter+" / "+krticaPoLevelu+"  ("+Krtica.pogodakaOvajLevel  +")   (level "+Krtica.level+" - "+delay+"ms)");
 			popupIzmeduLevela.setVisible(true);

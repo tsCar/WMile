@@ -22,12 +22,13 @@
       </script>
   <div id=container > 
     <p id=txt>Whack-a-Mile</p><br />
-    <div align=center>    <applet  codebase="classes/" code="Mile.class" width="640" height="480"  >      not supported    </applet> </div>
+    <div align=center>    <applet  codebase="classes/" code="Mile.class" width="640" height="480" border= 2>      not supported    </applet> </div>
 
         <br /><br />
         <table onmouseover="update()">
-        <tr ><th colspan="2">HIGH SCORES</th></tr>
-        <tr ><th colspan="2" id=majimaji>mouseover to update</th></tr>
+        <tr ><th colspan="3">HIGH SCORES</th></tr>
+        <tr ><th colspan="3" id=majimaji>mouseover to update</th></tr>
+
            
             
         </table>

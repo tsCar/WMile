@@ -27,9 +27,16 @@ $b=$_POST['bodovi'];
   }
 else {
     echo("nemamo b!");
-$b=888888;
+$b=1;
 }
-
+if(isset($_POST['level']))  {
+    $l=$_POST['level'];
+    echo("imamo lu!");
+  }
+else {
+    echo("nemamo l!");
+$l=0;
+}
 
 
 
@@ -39,11 +46,11 @@ try {
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     echo "Connected successfully";
 
-$stmt = $conn->prepare("INSERT INTO rezultat (user ,pass ,score)    VALUES (:user, :pass, :score)");
+$stmt = $conn->prepare("INSERT INTO rezultat (user ,pass ,score, level)    VALUES (:user, :pass, :score, :level)");
     $stmt->bindParam(':user', $u);
     $stmt->bindParam(':pass', $p);
     $stmt->bindParam(':score', $b);
-
+    $stmt->bindParam(':level', $l);
     $stmt->execute();
 
     echo "New records created successfully";
