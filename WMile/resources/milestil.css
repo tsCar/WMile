@@ -1,0 +1,62 @@
+body {
+    background-color:rgba(168,226, 222, 0.15);
+    min-height:100%;
+}
+
+#container {
+   
+    position:relative;
+    min-height:100%;
+    margin-left:auto;
+    margin-right:auto;   
+    width:85%;
+    border-left:groove;
+    border-right:groove;
+    border-width:2px;
+    background-image:url(gb.png);
+    background-size:100% 100%;
+    background-color:rgba(183, 183, 187,0.5);
+
+}
+
+table {
+    font-family: 'Press Start 2P', cursive;
+    width: 60%;
+    position:relative;
+    min-height:100%;
+    margin-left:auto;
+    margin-right:auto;
+}
+th {
+    padding: 15px;
+    padding-bottom: 0;
+    font-size: 35;
+}
+#txt {
+    
+	text-shadow: 4px 4px 4px #aaa;
+    float: none;
+    padding:1% 0% 1% 0%;
+    text-align:center;
+    vertical-align:top;
+    height:150px;
+	font-family: 'Nothing You Could Do', cursive;
+	font-size: 100px;
+	color: #0B0B61;
+    background-image:url(gb.png);
+    background-size:100% 100%;
+
+}
+.zadnjiStupac{
+    text-align: right; 
+}
+    
+#majimaji{
+    font-size: 7;
+    padding-top: 0;
+}
+
+tr{
+background-image:url(gb.png);
+background-color: rgba(132,11,42,0.25);
+}
