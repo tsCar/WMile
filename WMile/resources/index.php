@@ -20,9 +20,31 @@
                 xmlhttp.send();
          }
       </script>
+
   <div id=container > 
     <p id=txt>Whack-a-Mile</p><br />
-    <div align=center>    <applet  codebase="classes/" code="Mile.class" width="640" height="480" border= 2>      not supported    </applet> </div>
+<div align=center>   
+<script language="Javascript">
+  var _app = navigator.appName;
+  if (_app == 'Mozilla') {
+    document.write('<embed code="/classes/Mile.class"',
+                   'width="640"',
+                   'height="480"',
+                   'type="application/x-java-applet;version=1.5.0">');
+    }
+  else if (_app == 'Microsoft Internet Explorer') {
+    document.write('<OBJECT ',
+                   'classid="clsid:8AD9C840-044E-11D1-B3E9-00805F499D93"',
+                   'width="640"',
+                   'height="480">',
+                   '<PARAM name="code" value="/classes/Mile.class">',
+                   '</OBJECT>');
+    }
+  else {
+    document.write(' <applet  codebase="classes/" code="Mile.class" width="640" height="480" border= 2>      not supported    </applet> ');
+    }
+</script>
+</div>
 
         <br /><br />
         <table onmouseover="update()">

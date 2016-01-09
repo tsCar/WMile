@@ -435,9 +435,5 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
 			mile.setCursor(Cursor.getDefaultCursor());
 		}
 	}
-
-
-
-    
 }
     
