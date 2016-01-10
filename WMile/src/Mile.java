@@ -1,20 +1,10 @@
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.image.ImageObserver;
-
-import javafx.scene.layout.Background;
-
 import javax.swing.*;
-
-import java.util.TimerTask;
 import java.util.concurrent.ThreadLocalRandom;
 
 
 //TODO 
-
-
-//napravit da stranica na nešto liči...
-
 
 //možda:
 //dodat gamble na score na kraju
