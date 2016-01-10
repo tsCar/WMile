@@ -17,7 +17,6 @@ import java.util.concurrent.ThreadLocalRandom;
 
 
 //možda:
-//validirat password, dodat text.setechochar("*")
 //dodat gamble na score na kraju
 
 
@@ -28,11 +27,12 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
    
     ImageIcon[] backGround;
     Krtica mile,sanja;
-    JTextField kolikoOdKoliko,bodovi,userZaBazu,passZaBazu;
+    JTextField kolikoOdKoliko,bodovi,userZaBazu;
+    JPasswordField passZaBazu;
     JLabel label;
     Timer t,tsanja,cekajIzmedu,cekajFail,cekajVic;
     int delay,sirinaSjene=30,actionCounter,krticaPoLevelu,kliknutihSanja,zaIvu; //oprezno sa sirinom sjene, množi se s konstantom u klasi Sjena a ne smije preć 254
-    Sjena popupIzmeduLevela,popupVic,popupFail,bazaBodova;
+    Sjena popupIzmeduLevela,popupVic,popupFail,popupBaza;
     JButton okZaBazuBodova,notOkZaBazu;
     JScrollPane scrollVic,scrollLevel;
     ImageIcon marina,dzontra,ipsix,mileico,mile2ico,sanjaico,sanja2ico;
@@ -185,38 +185,39 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
 			add(popupFail);
 			popupFail.setSize(new Dimension(3*ipsix.getIconWidth()+2*sirinaSjene, ipsix.getIconHeight()+2*sirinaSjene));
 			popupFail.setLocation(getSize().width/2-popupFail.getSize().width/2, 222);
-		bazaBodova=new Sjena(sirinaSjene,254,-6,254,-6,0,8);
-			JPanel ja=new JPanel();
-			ja.setBackground(new Color(201,245,221));
-			bazaBodova.add(ja);
-			ja.setLayout(new GridBagLayout());
+		popupBaza=new Sjena(sirinaSjene,254,-6,254,-6,0,8);
+			JPanel bazaPanel=new JPanel();
+			bazaPanel.setBackground(new Color(201,245,221));
+			popupBaza.add(bazaPanel);
+			bazaPanel.setLayout(new GridBagLayout());
 			c = new GridBagConstraints();c.fill=GridBagConstraints.BOTH;
 			c.gridx = 0;c.gridy=0;	c.gridwidth=2;c.insets=new Insets(10, 0, 10, 0);	
 			JLabel la=new JLabel("Unijeti bodove u bazu?",JLabel.CENTER);
-			ja.add(la,c);
+			bazaPanel.add(la,c);
 			userZaBazu=new JTextField("nick");//*/	System.getProperty("user.name"));  //Ne može, ne da Java! -.- 
 			LstenerZaFokus s=new LstenerZaFokus(userZaBazu);
 			userZaBazu.addFocusListener(s);				
 			c.gridx=0;c.gridy=1;c.gridwidth=2;c.insets=new Insets(0, 10, 10, 10);
-			ja.add(userZaBazu,c);
-			passZaBazu=new JTextField("password");
+			bazaPanel.add(userZaBazu,c);
+			passZaBazu=new JPasswordField("password");
+			passZaBazu.setEchoChar((char)0);
 			LstenerZaFokus s2 =new LstenerZaFokus(passZaBazu);
 			passZaBazu.addFocusListener(s2);
 			c.gridx=0;c.gridy = 2;c.gridwidth=2;
-			ja.add(passZaBazu,c);
+			bazaPanel.add(passZaBazu,c);
 			okZaBazuBodova=new JButton("Unesi");
 			okZaBazuBodova.addMouseListener(this);
 			c.gridx=0;c.gridy = 3;c.gridwidth=1;
-			ja.add(okZaBazuBodova,c);
+			bazaPanel.add(okZaBazuBodova,c);
 			notOkZaBazu=new JButton("Nemoj unijeti");
 			notOkZaBazu.addMouseListener(this);
 			c.gridx=1;c.gridy = 3;c.fill=GridBagConstraints.BOTH;c.gridwidth=1;
-			ja.add(notOkZaBazu,c);	
-			bazaBodova.setVisible(false);
-			add(bazaBodova);
-			bazaBodova.setSize(3*ipsix.getIconWidth()+2*sirinaSjene, ipsix.getIconHeight()+2*sirinaSjene);
-			bazaBodova.setLocation(getSize().width/2-bazaBodova.getSize().width/2, 62);
-			bazaBodova.validate();
+			bazaPanel.add(notOkZaBazu,c);	
+			popupBaza.setVisible(false);
+			add(popupBaza);
+			popupBaza.setSize(3*ipsix.getIconWidth()+2*sirinaSjene, ipsix.getIconHeight()+2*sirinaSjene);
+			popupBaza.setLocation(getSize().width/2-popupBaza.getSize().width/2, 62);
+			popupBaza.validate();
 		t2=new ListenerZaSjenu(popupIzmeduLevela);//isto kao i za popupFail	
 		cekajIzmedu = new Timer(750, t2);
 	    t3=new ListenerZaSjenu(popupFail);
@@ -347,32 +348,34 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
 		else if(e.getSource()==popupFail || e.getSource()==textZaPopupFail){
 			if(popupFail.isEnabled()){
 				popupFail.setVisible(false);
-				textZaPopupIzmeduLevela.setText("Znači, idemo ponovo:");
+				textZaPopupIzmeduLevela.setText("<p>Znači, idemo ponovo:</p>");
 				krticaPoLevelu=10;
 				kliknutihSanja=0;
-				bazaBodova.setVisible(true);
+				popupBaza.setVisible(true);
 				repaint();
 			}
 		}
 		else if(e.getSource()==okZaBazuBodova){
-		/*	if(passZaBazu.toString()=="password"){
-				passZaBazu.setBackground(Color.ORANGE);				
+			if(passZaBazu.getText().equalsIgnoreCase("password")||passZaBazu.getText().equalsIgnoreCase("")){
+				passZaBazu.setBackground(Color.ORANGE);	
+				repaint();
 			}
-			else{*/
+			else{
 				try {
 					s=Db.upis(getCodeBase().toString(),userZaBazu.getText(),passZaBazu.getText(),Krtica.bodovi.intValue(),Krtica.level-1);
-					textZaPopupIzmeduLevela.setText("Spremljeno!\nIdemo ponovo!");
+					textZaPopupIzmeduLevela.setText("<p>Spremljeno!<br />Idemo ponovo!<br /Bez tuoriala, odmah level 1<p>");
 					
 					
 				} catch (Exception ex) {
 					textZaPopupIzmeduLevela.setText(ex.toString());
 				}
 				finally{
-					bazaBodova.setVisible(false);
+					System.out.println("to string: "+passZaBazu.toString()+"\n"+"get text: "+passZaBazu.getText()+"\nboja:"+passZaBazu.getCaretColor());
+					popupBaza.setVisible(false);
 					popupIzmeduLevela.setVisible(true);
-					repaint();
+					repaint();					
 				}
-			//}
+			}
 			label.setIcon(backGround[1]);
 			setContentPane(label); 
 			Krtica.level=1;
@@ -381,8 +384,8 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
 			kolikoOdKoliko.setText(actionCounter+" / "+krticaPoLevelu+"  ("+Krtica.pogodakaOvajLevel  +")   (level "+Krtica.level+" - "+delay+"ms)");
 		}
 		else if(e.getSource()==notOkZaBazu){
-			bazaBodova.setVisible(false);
-			textZaPopupIzmeduLevela.setText("Idemo ponovo!");
+			popupBaza.setVisible(false);
+			textZaPopupIzmeduLevela.setText("<p>Idemo ponovo!<br /Bez tuoriala, odmah level 1<p></p>");
 			Krtica.bodovi=0;
 			Krtica.level=1;
 			label.setIcon(backGround[1]);
