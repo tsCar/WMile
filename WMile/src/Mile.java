@@ -52,7 +52,7 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
     		"Mozak je fantastičan organ: počne raditi čim se ujutro probudis i ne prestaje sve dok ne dodjes na faks","Koja je razlika izmedju prijatelja kuće i kućnog prijatelja?\nPrijatelj kuće dodje kada hoće, a kućni prijatelj hoće kada dodje.",
     		"Kada zena od muza moze stvoriti milijunasa? Samo onda kada je muz milijarder.","Kako počinje i kako zavrsava zivot jednog motoriste? Pukne guma!"
     		};
-    String s;
+    String s,pass;
     GridBagConstraints c; 
     ListenerZaSanju listenerZaSanju;
     ListenerZaSjenu t2,t3,t4;
@@ -85,6 +85,7 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
     	Krtica.pogodakaOvajLevel=new Integer(0);//namjerno nije inicijalizirano u Krtici jer razmišljam o tome da usred igre možda dodam još jednu a ne želim da se vrijednosti izbrišu.   
     	krticaPoLevelu=3;
     	kliknutihSanja=0;
+    	pass=new String("password");
     	setLayout(null); //da mogu Mileta stavljat gdje hoću       	
     	this.addMouseListener(this);//izgleda ko da ne može bit točno. Nadam se da to dodaje ML na cijeli applet 
         label = new JLabel(new ImageIcon(getImage(getCodeBase(), "../resources/slika00.jpg").getScaledInstance( getSize().width,getSize().height,  java.awt.Image.SCALE_SMOOTH )));
@@ -199,7 +200,7 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
 			userZaBazu.addFocusListener(s);				
 			c.gridx=0;c.gridy=1;c.gridwidth=2;c.insets=new Insets(0, 10, 10, 10);
 			bazaPanel.add(userZaBazu,c);
-			passZaBazu=new JPasswordField("password");
+			passZaBazu=new JPasswordField(pass);
 			passZaBazu.setEchoChar((char)0);
 			LstenerZaFokus s2 =new LstenerZaFokus(passZaBazu);
 			passZaBazu.addFocusListener(s2);
@@ -249,7 +250,7 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
 			kolikoOdKoliko.setText("Level "+Krtica.level);
 			actionCounter=0;
 			mile.setVisible(false);//sakrije  zadnjeg Mileta koji je bio nacrtan
-			if(tsanja.isRunning())tsanja.stop(); //TODO ovo ne radi  Aha, jer radi timer u listeneru, njega treba ugasi.
+			if(tsanja.isRunning())tsanja.stop();
 			if(sanja.isVisible())sanja.setVisible(false);
 			if(listenerZaSanju.t.isRunning())listenerZaSanju.t.stop(); //Ovo je ružno, ovako na silu u tuđu klasu ali ne da mi se smišljat ljepše.
 			
@@ -356,13 +357,15 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
 			}
 		}
 		else if(e.getSource()==okZaBazuBodova){
-			if(passZaBazu.getText().equalsIgnoreCase("password")||passZaBazu.getText().equalsIgnoreCase("")){
+			pass= new String(passZaBazu.getPassword());
+			if(pass.equalsIgnoreCase("password")||pass.equalsIgnoreCase("")){
 				passZaBazu.setBackground(Color.ORANGE);	
 				repaint();
 			}
 			else{
+				passZaBazu.setBackground(Color.WHITE);	
 				try {
-					s=Db.upis(getCodeBase().toString(),userZaBazu.getText(),passZaBazu.getText(),Krtica.bodovi.intValue(),Krtica.level-1);
+					s=Db.upis(getCodeBase().toString(),userZaBazu.getText(),pass,Krtica.bodovi.intValue(),Krtica.level-1);
 					textZaPopupIzmeduLevela.setText("<p>Spremljeno!<br />Idemo ponovo!<br /Bez tuoriala, odmah level 1<p>");
 					
 					
@@ -370,14 +373,14 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
 					textZaPopupIzmeduLevela.setText(ex.toString());
 				}
 				finally{
-					System.out.println("to string: "+passZaBazu.toString()+"\n"+"get text: "+passZaBazu.getText()+"\nboja:"+passZaBazu.getCaretColor());
 					popupBaza.setVisible(false);
 					popupIzmeduLevela.setVisible(true);
+					label.setIcon(backGround[1]);
+					setContentPane(label); 
 					repaint();					
 				}
 			}
-			label.setIcon(backGround[1]);
-			setContentPane(label); 
+			
 			Krtica.level=1;
 			Krtica.bodovi=0;
 			bodovi.setText(Krtica.bodovi.toString());
