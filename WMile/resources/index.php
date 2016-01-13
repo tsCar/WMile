@@ -1,7 +1,7 @@
 <HTML>
   <HEAD>
     <TITLE>Whack-a-Mile</TITLE>
-    <link rel="icon" type="image/ico" href="mile.jpg" />
+    <link rel="icon" type="image/ico" href="./resources/mile.jpg" />
     <link rel="stylesheet" href="../resources/milestil.css" type="text/css" />
     <link href='https://fonts.googleapis.com/css?family=Nothing+You+Could+Do' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Press+Start+2P' rel='stylesheet' type='text/css'>
