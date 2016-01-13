@@ -280,8 +280,9 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
 					cekajFail.start();
 				}
 				else{
-					if(Krtica.level<=5)textZaPopupIzmeduLevela.setText("Bodovi za Level "+(Krtica.level-1)+":<br> "+Krtica.pogodakaOvajLevel+" pogodaka x "+(Krtica.level-1)+ " = <b>"+Krtica.pogodakaOvajLevel*(Krtica.level-1)+"</b><br>Ukupno pogodaka:"+Krtica.brojPogodaka+"/"+Krtica.brojPojavljivanja+"     "+(int)((double)Krtica.brojPogodaka/Krtica.brojPojavljivanja*100)+"%"+"<hr><p style= text-align: center;><b>Ukupno bodova:<br>"+Krtica.bodovi+"</b></p><br><hr>");
-					else textZaPopupIzmeduLevela.setText("Bodovi za Level "+(Krtica.level-1)+":<br> "+Krtica.pogodakaOvajLevel+" pogodaka x "+(Krtica.level-1)+ " - "+kliknutihSanja+" x Sanja = <b>"+(Krtica.pogodakaOvajLevel*(Krtica.level-1)-3*kliknutihSanja*(Krtica.level-1))+"</b><br>Ukupno pogodaka:"+Krtica.brojPogodaka+"/"+Krtica.brojPojavljivanja+"     "+(int)((double)Krtica.brojPogodaka/Krtica.brojPojavljivanja*100)+"%"+"<hr><p style= text-align: center;><b>Ukupno bodova:<br>"+Krtica.bodovi+"</b></p><br><hr>");
+					if(Krtica.level>5 && kliknutihSanja>0)textZaPopupIzmeduLevela.setText("Bodovi za Level "+(Krtica.level-1)+":<br> "+Krtica.pogodakaOvajLevel+" pogodaka x "+(Krtica.level-1)+ " - "+kliknutihSanja+" x Sanja = <b>"+(Krtica.pogodakaOvajLevel*(Krtica.level-1)-3*kliknutihSanja*(Krtica.level-1))+"</b><br>Ukupno pogodaka:"+Krtica.brojPogodaka+"/"+Krtica.brojPojavljivanja+"     "+(int)((double)Krtica.brojPogodaka/Krtica.brojPojavljivanja*100)+"%"+"<hr><p style= text-align: center;><b>Ukupno bodova:<br>"+Krtica.bodovi+"</b></p><br><hr>");
+					else textZaPopupIzmeduLevela.setText("Bodovi za Level "+(Krtica.level-1)+":<br> "+Krtica.pogodakaOvajLevel+" pogodaka x "+(Krtica.level-1)+ " = <b>"+Krtica.pogodakaOvajLevel*(Krtica.level-1)+"</b><br>Ukupno pogodaka:"+Krtica.brojPogodaka+"/"+Krtica.brojPojavljivanja+"     "+(int)((double)Krtica.brojPogodaka/Krtica.brojPojavljivanja*100)+"%"+"<hr><p style= text-align: center;><b>Ukupno bodova:<br>"+Krtica.bodovi+"</b></p><br><hr>");
+ 
 					popupIzmeduLevela.setVisible(true);
 					popupIzmeduLevela.setEnabled(false);
 					cekajIzmedu.setRepeats(false);
