@@ -46,7 +46,7 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
     GridBagConstraints c; 
     ListenerZaSanju listenerZaSanju;
     ListenerZaSjenu t2,t3,t4;
-
+    Image nisan;
     
     @Override
     public void init() {
@@ -80,6 +80,7 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
     	this.addMouseListener(this);//izgleda ko da ne može bit točno. Nadam se da to dodaje ML na cijeli applet 
         label = new JLabel(new ImageIcon(getImage(getCodeBase(), "../resources/slika00.jpg").getScaledInstance( getSize().width,getSize().height,  java.awt.Image.SCALE_SMOOTH )));
         setContentPane(label); 
+        nisan=getImage(getCodeBase(), "../resources/nisan.png");
         mileico=new ImageIcon(getImage(getCodeBase(), "../resources/mile.jpg").getScaledInstance( 100, 100,  java.awt.Image.SCALE_SMOOTH ));
         mile2ico=new ImageIcon(getImage(getCodeBase(), "../resources/mile2.png").getScaledInstance( 100, 100,  java.awt.Image.SCALE_SMOOTH ));
         mile = new Krtica(mileico );
@@ -423,7 +424,7 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
 	@Override
 	public void mouseEntered(MouseEvent e) {
 		if(e.getSource()==mile){
-			mile.setCursor (Toolkit.getDefaultToolkit().createCustomCursor(getImage(getCodeBase(), "../resources/nisan.png"), new Point(32,35), "img"));
+			mile.setCursor (Toolkit.getDefaultToolkit().createCustomCursor(nisan, new Point(32,35), "img"));
 		}
 	}
 	@Override
