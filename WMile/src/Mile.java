@@ -302,7 +302,7 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
 			mile.setLocation(ThreadLocalRandom.current().nextInt(0, getSize().width-mile.getSize().width),ThreadLocalRandom.current().nextInt(0, getSize().height-mile.getSize().height));//Znači, x na random od nula do (širina appleta-širina mileta), analogno za y
 			mile.setIcon(mileico);
 			mile.setVisible(true);
-			repaint();
+			//repaint();
 			t.restart();
 		}
 		bodovi.setText(Krtica.bodovi.toString());
@@ -406,7 +406,7 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
 			Krtica.bodovi+=Krtica.level;
 			Krtica.pogodakaOvajLevel ++;
 			kolikoOdKoliko.setText(actionCounter+" / "+krticaPoLevelu+"  ("+Krtica.pogodakaOvajLevel  +")   (level "+Krtica.level+" - "+delay+"ms)");
-			repaint();
+		//	repaint();
 			t.stop();
 		}
 		if(e.getSource()==sanja){
