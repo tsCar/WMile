@@ -25,7 +25,7 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
     Sjena popupIzmeduLevela,popupVic,popupFail,popupBaza;
     JButton okZaBazuBodova,notOkZaBazu;
     JScrollPane scrollVic,scrollLevel;
-    ImageIcon marina,dzontra,ipsix,mileico,mile2ico,sanjaico,sanja2ico;
+    ImageIcon marina,dzontra,ipsix,mileico,mile2ico,sanjaico,sanja2ico,tmpZaNisan;
     JEditorPane textZaPopupIzmeduLevela,textZaPopupVic,textZaPopupFail;
     String[] vicevi={ "Pita tata \"Sine, zašto želiš postati nogometni sudac?\n-Zato jer mi se fućka za nogomet!","Dodje Bruce Willis u trgovinu informaticke opreme i kaze:daj hard",
     		"Sastanu se Kinez i Slovenac na poslovnom ručku i pita Kinez 'Koliko vas ima?'\n'Oko 2 milijuna' odvrati Slovenac.'U kojem hotelu ste odsjeli?'" ,
@@ -80,7 +80,8 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
     	this.addMouseListener(this);//izgleda ko da ne može bit točno. Nadam se da to dodaje ML na cijeli applet 
         label = new JLabel(new ImageIcon(getImage(getCodeBase(), "../resources/slika00.jpg").getScaledInstance( getSize().width,getSize().height,  java.awt.Image.SCALE_SMOOTH )));
         setContentPane(label); 
-        nisan=getImage(getCodeBase(), "../resources/nisan.png");
+        tmpZaNisan=new ImageIcon(getImage(getCodeBase(), "../resources/nisan.png").getScaledInstance( 32, 32,  java.awt.Image.SCALE_SMOOTH ));
+        nisan=tmpZaNisan.getImage(); //security se pomustafi ako probam direktno get image iz fajla
         mileico=new ImageIcon(getImage(getCodeBase(), "../resources/mile.jpg").getScaledInstance( 100, 100,  java.awt.Image.SCALE_SMOOTH ));
         mile2ico=new ImageIcon(getImage(getCodeBase(), "../resources/mile2.png").getScaledInstance( 100, 100,  java.awt.Image.SCALE_SMOOTH ));
         mile = new Krtica(mileico );
@@ -424,7 +425,7 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
 	@Override
 	public void mouseEntered(MouseEvent e) {
 		if(e.getSource()==mile){
-			mile.setCursor (Toolkit.getDefaultToolkit().createCustomCursor(nisan, new Point(32,35), "img"));
+			mile.setCursor (Toolkit.getDefaultToolkit().createCustomCursor(nisan, new Point(16,16), "img"));
 		}
 	}
 	@Override
