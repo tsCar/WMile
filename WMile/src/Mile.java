@@ -370,12 +370,13 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
 					popupIzmeduLevela.setVisible(true);
 					label.setIcon(backGround[1]);
 					setContentPane(label); 
+					Krtica.level=1;
+					Krtica.bodovi=0;
 					repaint();					
 				}
 			}
 			
-			Krtica.level=1;
-			Krtica.bodovi=0;
+
 			bodovi.setText(Krtica.bodovi.toString());
 			kolikoOdKoliko.setText(actionCounter+" / "+krticaPoLevelu+"  ("+Krtica.pogodakaOvajLevel  +")   (level "+Krtica.level+" - "+delay+"ms)");
 		}
