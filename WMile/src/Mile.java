@@ -46,6 +46,7 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
     GridBagConstraints c; 
     ListenerZaSanju listenerZaSanju;
     ListenerZaSjenu t2,t3,t4;
+    LstenerZaFokus lzf,lzf2;
     Image nisan;
     
     @Override
@@ -188,14 +189,14 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
 			JLabel la=new JLabel("Unijeti bodove u bazu?",JLabel.CENTER);
 			bazaPanel.add(la,c);
 			userZaBazu=new JTextField("nick");//*/	System.getProperty("user.name"));  //Ne može, ne da Java! -.- 
-			LstenerZaFokus s=new LstenerZaFokus(userZaBazu);
-			userZaBazu.addFocusListener(s);				
+			lzf=new LstenerZaFokus(userZaBazu);
+			userZaBazu.addFocusListener(lzf);				
 			c.gridx=0;c.gridy=1;c.gridwidth=2;c.insets=new Insets(0, 10, 10, 10);
 			bazaPanel.add(userZaBazu,c);
 			passZaBazu=new JPasswordField(pass);
 			passZaBazu.setEchoChar((char)0);
-			LstenerZaFokus s2 =new LstenerZaFokus(passZaBazu);
-			passZaBazu.addFocusListener(s2);
+			lzf2 =new LstenerZaFokus(passZaBazu);
+			passZaBazu.addFocusListener(lzf2);
 			c.gridx=0;c.gridy = 2;c.gridwidth=2;
 			bazaPanel.add(passZaBazu,c);
 			okZaBazuBodova=new JButton("Unesi");
@@ -307,7 +308,6 @@ public class Mile extends JApplet implements ActionListener, MouseListener {
 		}
 		bodovi.setText(Krtica.bodovi.toString());
 	}
-  
 
 
 	@Override
